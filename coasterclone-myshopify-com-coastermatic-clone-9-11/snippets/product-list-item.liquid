@@ -1,0 +1,37 @@
+{% assign item = product %}
+
+{% if template contains 'search' %}
+  {% assign item = item %}
+{% elsif template contains 'product' %}
+  {% assign item = prod %}
+{% endif %}
+
+<article class="product-list-item" id="product-list-item-{{ item.id }}">
+
+  <figure class="thumbnail">
+    <a href="{{ item.url | within: collection }}">
+    {% if item.featured_image.src.size > 0 %}
+    <img src="{{ item.featured_image.src | product_img_url: 'grande' }}" alt="{{ item.featured_image.alt | escape }}" />
+    {% else %}
+    <img class="product-no-images" src="{{ 'no-image.svg' | asset_url }}" alt="No Image Available" />
+    {% endif %}
+    </a>
+  </figure>
+
+  <div class="product-list-details">
+    <p class="title"><a href="{{ item.url | within: collection }}">{{ item.title }}</a></p>
+    <p class="vendor">by {{ item.vendor }}</p>
+    <p class="product-price">
+    {% if item.available %}
+      {% if item.compare_at_price_min > item.price_min %}
+        <span class="price on-sale"><span class="original">{{ item.compare_at_price_min | money }}</span> {{ item.price_min | money }}</span>
+      {% else %}
+        <span class="price">{{ item.price_min | money }}</span>
+      {% endif %}
+    {% else %}
+      <span class="price">Sold out</span>
+    {% endif %}
+    </p>
+  </div>
+
+</article>

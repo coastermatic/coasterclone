@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h1>Activate your account</h1>
+</div>
+
+<div class="account-wrapper">
+
+  <div class="account-content">
+
+    {% form 'activate_customer_password' %}
+
+      <p class="activate-instructions">
+        {% if form.errors %}
+          <span class="error">
+            {% for field in form.errors %}
+              {{ form.errors.messages[field] }}
+            {% endfor %}
+          </span> Please try again.
+        {% else %}
+          To activate your account, choose a password and enter it below.
+        {% endif %}
+      </p>
+
+      <div class="input-wrapper password">
+        <label>Password</label>
+        <input type="password" name="customer[password]" class="field">
+      </div>
+
+      <div class="inputer-wrapper password-confirmation">
+        <label>Repeat password</label>
+        <input type="password" name="customer[password_confirmation]" class="field">
+      </div>
+
+      <div class="input-wrapper">
+        <input type="submit" value="Submit">
+      </div>
+
+      <p>Or <a href="/">decline activation</a></p>
+
+    {% endform %}
+
+  </div>
+</div>

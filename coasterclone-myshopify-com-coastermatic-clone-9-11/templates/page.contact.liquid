@@ -1,0 +1,106 @@
+<article class="page-content">
+
+  <header class="page-header">
+    <h1>{{ page.title }}</h1>
+  </header>
+
+  <div class="rte">
+    {{ page.content }}
+  </div>
+
+  <div class="contact-form-wrap">
+    {% form 'contact' %}
+
+      <header>
+       <!-- <h5>Get in touch!</h5> -->
+      </header>
+
+      {% if form.errors %}
+        <div class="alert-message error"><span>{{ settings.contact-error-message }}</span></div>
+      {% endif %}
+
+      {% if form.posted_successfully? %}
+        <div class="alert-message success"><span>{{ settings.contact-success-message }}</span></div>
+      {% else %}
+
+        <div class="input-wrapper name">
+          <label>{{ settings.contact-label-name }}</label>
+          <input type="text" placeholder="Your name" value="" name="contact[name]" class="{% if form.errors contains "author" %}error{% endif %}">
+        </div>
+
+        <div class="input-wrapper email">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com" value="" name="contact[email]" class="{% if form.errors contains "email" %}error{% endif %}">
+        </div>
+
+        <div class="input-wrapper message">
+          <label>{{ settings.contact-label-message }}</label>
+          <textarea name="contact[body]" class="{% if form.errors contains "body" %}error{% endif %}"></textarea>
+        </div>
+
+        {% if settings.display-contact-select %}
+        <div class="input-wrapper">
+          <label for="contact[select]">{{ settings.contact-label-select }}</label>
+
+          <div class="select-wrapper">
+            <div class="selected-option">{{ settings.contact-default-select }}</div>
+
+            <select name="contact[select]">
+              <option disabled="disabled" selected="selected">{{ settings.contact-default-select }}</option>
+
+              {% if settings.contact-select-option-1.size > 0 %}
+                <option name="contact[select]" value="{{ settings.contact-select-option-1 }}">{{ settings.contact-select-option-1 }}</option>
+              {% endif %}
+              {% if settings.contact-select-option-2.size > 0 %}
+                <option name="contact[select]" value="{{ settings.contact-select-option-2 }}">{{ settings.contact-select-option-2 }}</option>
+              {% endif %}
+              {% if settings.contact-select-option-3.size > 0 %}
+                <option name="contact[select]" value="{{ settings.contact-select-option-3 }}">{{ settings.contact-select-option-3 }}</option>
+              {% endif %}
+              {% if settings.contact-select-option-4.size > 0 %}
+                <option name="contact[select]" value="{{ settings.contact-select-option-4 }}">{{ settings.contact-select-option-4 }}</option>
+              {% endif %}
+              {% if settings.contact-select-option-5.size > 0 %}
+                <option name="contact[select]" value="{{ settings.contact-select-option-5 }}">{{ settings.contact-select-option-5 }}</option>
+              {% endif %}
+            </select>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="input-wrapper">
+          <input type="submit" class="submit" value="Submit">
+        </div>
+
+      {% endif %}
+
+    {% endform %}
+
+  
+
+  </div>
+
+</article>
+
+{% if page_title == 'Wholesale' %}
+     <div id="wholesale" class="items-wrap">
+        <!-- Disqus -->  
+        <article class="collection-list-item centered">
+           {{ 'img_wholesale_disqus.jpg' | asset_url  | img_tag: 'Disqus Upvote Coasters'}}
+            <div class="rte">&#8220;At Disqus we give out &#8216;Upvotes&#8217; for demonstrating company values.&#8221; <br/><a class="inline" href="https://twitter.com/kimskitchensink" target="_blank">Kim Roher</a></div>
+        </article> 
+
+        <!-- Twitter -->  
+        <article class="collection-list-item centered">
+           {{ 'img_wholesale_twitter.jpg' | asset_url  | img_tag: 'Twitter Design Coasters'}}
+            <div class="rte">&#8220;Fresh coffee in a Twitter mug just waiting to hop on this new custom Twitter coaster.&#8221; <br/><a class="inline" href="https://twitter.com/bhaggs" target="_blank">Bryan Haggerty</a></div>
+        </article> 
+
+        <!-- IxD15 -->  
+        <article class="collection-list-item centered">
+           {{ 'img_wholesale_ixd.jpg' | asset_url  | img_tag: 'Interaction15 Local Leader Coasters'}}
+            <div class="rte">&#8220;These were a great gift for our local <a class="inline" href="http://www.ixda.org/" target="_blank">IxDA</a> leaders.&#8221; <br/>Stephanie Aaron</div>
+        </article>   
+
+     </div>
+{% endif %}

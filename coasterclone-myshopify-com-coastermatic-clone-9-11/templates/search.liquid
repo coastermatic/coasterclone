@@ -1,0 +1,78 @@
+<div class="page-header">
+  <h1>
+    {% if search.performed %}
+      Search results
+    {% else %}
+      Search
+    {% endif %}
+  </h1>
+</div>
+
+{% paginate search.results by 10 %}
+<div class="search-results-wrapper">
+
+  {% if search.performed %}
+    <div class="search-results-count">
+      <p>{{ search.results_count }} {{ search.results_count | pluralize: 'result', 'results' }} for '{{ search.terms }}'</p>
+    </div>
+
+    <div class="search-results">
+      {% for item in search.results %}
+        <div class="search-result-item {% include 'for-looper' %}">
+
+          {% unless item.price %}
+            <h3>{{ item.title | link_to: item.url }}</h3>
+
+            {% unless item.handle %}
+              <aside class="search-result-meta">
+                <a href="{{item.url}}">{{ item..published_at | date: "%b %d, %Y" }}</a>
+              </aside>
+            {% endunless %}
+          {% endunless %}
+
+          {% if item.featured_image %}
+            <div class="search-result-image"><a href="{{item.url}}">{{ item.featured_image | product_img_url: '1024x1024' | img_tag }}</a></div>
+          {% endif %}
+
+          {% if item.price %}
+          <div class="search-result-product-info">
+            <ul>
+              <li class="result-vendor">{{ item.vendor }}</li>
+              <li class="result-product-name"><a href="{{item.url}}" title="{{ item.title }}">{{ item.title }}</a></li>
+              {% if item.compare_at_price_min > item.price_min %}
+                <li class="result-price on-sale"><span class="original">{{ item.compare_at_price_min | money }}</span> {{ item.price_min | money }}</li>
+              {% else %}
+                <li class="result-price">{{ item.price_min | money }}</li>
+              {% endif %}
+            </ul>
+          </div>
+          {% endif %}
+
+          {% unless item.price %}
+          <div class="rte">
+            {% if settings.blog-use-excerpts and item.excerpt.size > 0 %}
+              {{ item.excerpt }}
+            {% else %}
+              <p>{{ item.content | strip_html | truncatewords: 50 }}</p>
+              <p><a href="{{ item.url }}">Continue reading</a></p>
+            {% endif %}
+          </div>
+          {% endunless %}
+
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if paginate.previous or paginate.next %}
+      {% include 'pagination' %}
+    {% endif %}
+  {% endif %}
+
+  {% if search.results.size < 1 %}
+    <form class="big-search-form" action="/search" method="get">
+      <input class="search-input" name="q" type="text" placeholder="Enter search terms" value="" />
+      <input type="submit" value="Search" />
+    </form>
+  {% endif %}
+</div>
+{% endpaginate %}

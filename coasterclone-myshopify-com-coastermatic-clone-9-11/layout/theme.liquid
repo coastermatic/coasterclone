@@ -1,0 +1,198 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7 lt-ie10" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie10" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9 lt-ie10" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 lt-ie10 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="google-site-verification" content="nnHBaSxx-iqiQX1fReRfsWFWgywl1sXw9F6hIy3BvyY" />
+
+  {% if template == 'index' %}
+    <title>{{ shop.name }} | {{ page_title }}</title>
+  {% elsif template == '404' %}
+    <title>Page Not Found | {{ shop.name }}</title>
+  {% else %}
+    <title>{{ page_title }} | {{ shop.name }}</title>
+  {% endif %}
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description }}" />
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}" />
+  {% if product.handle != 'instagram-coasters' %}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {% endif %}
+
+  {{ content_for_header }}
+
+  <!-- Theme CSS
+  ///////////////////////////////////////// -->
+  {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+
+  <!-- Coastermatic Additions
+  ///////////////////////////////////////// -->
+ {{ 'cm_custom.css' | asset_url | stylesheet_tag }}
+
+
+  <link rel="Shortcut icon" href="{{ 'favicon.ico' | asset_url }}" />
+  {% if template == 'cart' %}
+    {{ 'cm_cart.css' | asset_url | stylesheet_tag }}
+  {% endif %}
+
+  {% if product.handle == 'instagram-coasters' or 'photo-upload' or 'single-coaster'%}
+    {{ 'cm_select.css' | asset_url | stylesheet_tag }}
+  {% endif %}
+
+  <!-- Typography
+  ///////////////////////////////////////// -->
+  {% include 'fonts' %}
+
+  <!-- Javascript -->
+  {{ 'modernizr-2.6.2.min.js' | asset_url | script_tag }}
+  {{ 'jquery.js' | asset_url | script_tag }}
+
+  {% if template contains 'customers' %}
+    {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+    {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}
+
+  {% if page.title == 'wedding-coasters' %}
+    {% endif %}
+  
+  
+  <script src="//use.typekit.net/hnb7fyb.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+  
+
+  <!-- Store object
+  ///////////////////////////////////////// -->
+  <script type="text/javascript">
+    settings = {}
+
+    // Cart page
+    settings.moneyFormat          = '{{ shop.money_format }}';
+
+    // Home page
+    settings.showSlideshow        = {{ settings.show-slideshow }};
+    settings.slideshowNavigation  = {{ settings.show-slideshow-navigation }};
+    settings.slideshowAutoPlay    = {{ settings.slideshow-auto-play }};
+    settings.slideDuration        = '{{ settings.slideshow-duration }}';
+    settings.featuredCollections  = {{ settings.display-featured-collections }};
+    settings.collectionAlignment  = '{{ settings.collections-list-position }}';
+    settings.showInstagramWidget  = {{ settings.display-instagram-widget | json }};
+    settings.instagramAccessToken = '{{ settings.instagram-widget-access-token }}';
+    settings.showInstagramTag     = {{ settings.display-instagram-tag | json }};
+    settings.instagramTag         = '{{ settings.instagram-widget-tag | escape }}';
+    settings.showTwitterWidget    = {{ settings.display-twitter-widget | json }};
+    settings.twitterWidgetId      = '{{ settings.twitter-id | escape }}';
+    settings.twitterRetweets      = {{ settings.twitter-retweets | json }};
+  </script>
+  
+  {% include 'social-meta' %}
+  <meta name="p:domain_verify" content="7fef998f30258a3671e4aeedec58e1d3"/>
+  
+  <!-- Facebook Pixel Code 2015 -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '1536618316584490');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1536618316584490&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+  
+<!-- Please call pinit.js only once per page
+TW DISABLED - need to figure out product page stats, and also it messes up our share button line
+<script type="text/javascript" async defer  data-pin-color="red" data-pin-height="28" data-pin-hover="true" src="//assets.pinterest.com/js/pinit.js"></script>-->
+  
+  
+</head>
+
+<body class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+
+  <div id="fb-root"></div>
+  <!-- FACEBOOK JS SDK -->
+  <!-- used for like button -->
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=187795038002910";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+	<!-- /FACEBOOK JS SDK -->
+  
+  {% include 'header' %}
+
+  {% if settings.show-slideshow and template == 'index' %}
+    {% include 'slideshow' %}
+  {% endif %}
+
+  <div class="main-content container">
+
+    {% if template != 'index' %}
+      {% include 'breadcrumbs' %}
+    {% endif %}
+
+    {% if template == 'list-collections' %}
+      {% include 'collection-listing' %}
+    {% else %}
+      {{ content_for_layout }}
+    {% endif %}
+  </div>
+
+  {% include 'footer' %}
+
+  <!-- Theme JS
+  ///////////////////////////////////////// -->
+  {% if template contains 'cart' %}
+    {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  {% endif %}
+  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+  {{ 'plugins.js'  | asset_url | script_tag }}
+  {{ 'site.js'  | asset_url | script_tag }}
+
+  <!-- Adroll -->
+  <script type="text/javascript">
+  adroll_adv_id = "EU3EZ7CSJZBVXNFRUFT76T";
+  adroll_pix_id = "Y2Q7O2J6CVHFNEWK7N4UED";
+  (function () {
+  var oldonload = window.onload;
+  window.onload = function(){
+     __adroll_loaded=true;
+     var scr = document.createElement("script");
+     var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+     scr.setAttribute('async', 'true');
+     scr.type = "text/javascript";
+     scr.src = host + "/j/roundtrip.js";
+     ((document.getElementsByTagName('head') || [null])[0] ||
+      document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+     if(oldonload){oldonload()}};
+  }());
+  </script>
+
+  <!-- Klaviyo -->
+  <script type="text/javascript">
+    var _learnq = _learnq || [];
+
+    _learnq.push(['account', 'bBDZ5j']);
+
+    (function () {
+    var b = document.createElement('script'); b.type = 'text/javascript'; b.async = true;
+    b.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'a.klaviyo.com/media/js/analytics/analytics.js';
+    var a = document.getElementsByTagName('script')[0]; a.parentNode.insertBefore(b, a);
+    })();
+  </script>
+
+</body>
+</html>

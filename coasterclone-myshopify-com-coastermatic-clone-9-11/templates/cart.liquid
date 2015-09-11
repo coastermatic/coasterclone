@@ -1,0 +1,185 @@
+<script>
+//crop values get put in here
+var cropArray = new Array();
+</script>
+
+<section id="cart">
+  <div class="internal-container">
+<h1>Your Cart</h1>
+  
+{% if cart.item_count > 0 %}
+
+<form action="/cart" method="post">
+  
+  <div id="coaster-sets-column">
+
+    {% for item in cart.items %}
+    
+    <!-- coaster set -->
+    <div class="coaster-set">
+      <ul class="coaster-set-preview {{ item.id }}">
+        
+          {% comment %}
+          product variant id: 366061911 = instagram coasters
+          product variant id: 2548532867 = photo upload
+          {% endcomment %}
+
+        {% if item.product.id == 366061911 or 2548532867 %}
+      
+            <!-- write image list -->
+            {% for p in item.properties %}
+             {% if p.first contains 'thumbnail' %}
+                <li style="background-image: url({{ p.last }});"></li>
+              {% endif %}
+            {% endfor %}
+         
+            <script>
+      
+            {% for p in item.properties %}
+        
+              {% if p.first contains 'crop' %}
+                     //push crop value for each li into array
+                     cropArray.push({{ p.last }});
+              {% endif %}
+      
+            {% endfor %}
+      
+            </script>
+          {% elsif item.product.id == 386606572 %}
+
+          {% comment %}
+          product id: 386606572 = single-coaster
+          {% endcomment %}
+        
+          <li class="single" style="background-image: url({{ item.properties.img_1_url }});"></li>
+
+           
+         
+            <script>
+      
+            {% for p in item.properties %}
+        
+              {% if p.first contains 'crop' %}
+                     //push crop value for each li into array
+                     cropArray.push({{ p.last }});
+              {% endif %}
+      
+            {% endfor %}
+      
+            </script>
+        {% else %}
+                
+          {% for image in item.product.images %}
+            {% if image.alt contains 'cart' %}
+              <li style="background-image: url({{ image.src | product_img_url: 'compact' }});"></li>
+            {% endif %}
+          {% endfor %}
+          
+        {% endif %}
+  
+      </ul>
+      <ul class="coaster-set-controls">
+        <li {%if item.product.id == 412540651 %} class="hide" {% endif %}> 
+
+          
+          <label for="quantity">Quantity</label>
+          <input oninput="if(this.value>=0){window.location = '{{ shop.url }}/cart/change?line={{ forloop.index }}&quantity='+this.value}else{window.location = '{{ shop.url }}/cart/change?line={{ forloop.index }}&quantity=0'};" type="number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" />
+          
+        </li>
+        <li class="remove-link"><a href="/cart/change?line={{ forloop.index }}&quantity=0" title="remove coasters from cart" class="cart">Remove</a></li>
+      </ul>
+    </div>
+    <!-- / cart code -->    
+
+    {% endfor %}
+    
+    <!-- empty coaster set -->
+    <div class="coaster-set empty-coaster-set">
+     <!-- <h2 class="list">Got everyone on your list covered?</h2>-->
+
+      <!--<p><a href="https://instagram.com/oauth/authorize/?client_id=7575c8b919d64f258ce7a4032a35e3d9&redirect_uri={{ shop.url }}/products/instagram-coasters&response_type=token"><span>Create a custom set</span></a></p>-->
+
+      <p><a href="{{ shop.url }}"><span>Keep shopping!</span></a></p>
+    </div>
+
+  </div>
+  
+  <div class="cart-summary">
+   <!-- <p style="padding:0px 10px;"><strong>Please note:</strong> <br><span style="font-size:16px;">We're <a id="holiday-special" href="http://coastermatic.com/blogs/oncoastermatic/16340860-coasterbreak">on break until Jan 5</a>.<br> All orders will be printed and shipped as soon as we get back.</span></p> -->
+    
+    
+    <div class="subtotal">
+      <h3>{{ cart.item_count }} {{ cart.item_count | pluralize: 'Set', 'Sets' }}</h3>
+      <h4>{{ cart.total_price | money }}</h4>
+    </div>
+
+    <div id="isGift">
+      <label for="note" style="">Is this a gift?</label><input type="checkbox" id="note" name="note">
+      <p>We'll leave the price off the packing slip for you. </p>
+    </div>
+    <button type="submit" name="checkout" class="payment-button btn" tabindex="14">Check out</button>
+
+  </div>
+  
+  
+
+</form>
+
+{% else %}
+
+<div id="coaster-sets-column">
+  <!-- empty coaster set -->
+  <div class="coaster-set empty-coaster-set">
+    <!--<p><a href="https://instagram.com/oauth/authorize/?client_id=7575c8b919d64f258ce7a4032a35e3d9&redirect_uri={{ shop.url }}/products/instagram-coasters&response_type=token"><span>Create a custom set</span></a></p>-->
+
+      <p><a href="{{ shop.url }}"><span>Keep shopping!</span></a></p>
+  </div>
+</div>
+<div class="cart-summary">
+  <div class="subtotal">
+    <h3>{{ cart.item_count }} Sets</h3>
+    <h4>{{ cart.total_price | money }}</h4>
+  </div>
+</div>
+
+{% endif %}
+</div>
+</section>
+
+<script>
+  $(function () {
+
+    //loop through each li, match up with corresponding crop
+    $('ul.coaster-set-preview li').each(function(index){
+
+      //add border-cropped whenever its true
+      if(cropArray[index] == 1){
+        $(this).addClass('border-cropped');
+      }
+
+      $(this).show();
+    });
+
+    //erase tropical cookie incase someone came from a special url
+    var tropicalCookie = readCookie('tropical');
+    if (tropicalCookie) {
+       eraseCookie('tropical');
+    }
+
+  });
+</script>
+
+<script type="text/javascript">
+var fb_param = {};
+fb_param.pixel_id = '6008878755841';
+fb_param.value = '{{ total_price | money_without_currency }}';
+fb_param.currency = 'USD';
+(function(){
+  var fpw = document.createElement('script');
+  fpw.async = true;
+  fpw.src = '//connect.facebook.net/en_US/fp.js';
+  var ref = document.getElementsByTagName('script')[0];
+  ref.parentNode.insertBefore(fpw, ref);
+})();
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6008878755841&amp;value=0&amp;currency=USD" /></noscript>
