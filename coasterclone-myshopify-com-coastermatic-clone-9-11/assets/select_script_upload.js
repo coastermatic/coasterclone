@@ -56,8 +56,8 @@
     formdata.append("id", product_variant);
     formdata.append("quantity", quantity);
     images.forEach(function(img, i) {
-      formdata.append("properties[img_" + i + "_url]", img.cropped);
-      formdata.append("properties[img_" + i + "_thumbnail]", img.thumbnail);
+      formdata.append("properties[img_" + (i+1) + "_url]", img.cropped);
+      formdata.append("properties[img_" + (i+1) + "_thumbnail]", img.thumbnail);
     });
 
     var xhr = new XMLHttpRequest();
