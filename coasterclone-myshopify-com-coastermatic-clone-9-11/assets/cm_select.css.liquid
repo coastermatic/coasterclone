@@ -383,7 +383,7 @@ div#shop-url {
 
 #overlay {
   display: none;
-  position: absolute;
+  position: fixed;
   left: 0px;
   top: 0px;
   width:100%;
@@ -393,10 +393,30 @@ div#shop-url {
   background: rgba(0,0,0,.5);
 }
 
-#overlay>.modal {
+#overlay .modal {
   width:450px;
-  margin: 10% auto;
-  background-color: #fff;
-  padding:30px;
+  margin:auto auto;
+  background-color:#fff;
+  padding:20px;
   text-align:center;
+}
+
+.cropper-drag-box.cropper-modal {
+  background-color: rgba(255,255,255,0.8) !important;
+  opacity: 1;
+}
+
+span.cropper-view-box {
+  border-radius: 50%;
+  outline: none !important;
+}
+
+.crop-view {
+  margin:20px;
+  width:350px;
+  height:350px;
+}
+
+#images ul li {
+  cursor: pointer;
 }

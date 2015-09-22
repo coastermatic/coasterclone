@@ -1,5 +1,7 @@
 {{ 'cropper.min.css' | asset_url | stylesheet_tag }}
 {{ 'cropper.min.js' | asset_url | script_tag }}
+{{ 'nouislider.min.css' | asset_url | stylesheet_tag }}
+{{ 'nouislider.min.js' | asset_url | script_tag }}
 {{ 'select_script_upload.js' | asset_url | script_tag }}
 
 <div id="product" class="{{ product.handle }}">
@@ -36,26 +38,39 @@
         </div>
       </div>
       <div class="cart-or-crop">
-        <button id="choose-photo">Choose Photo</button>
+        <button id="choose-photo">Choose Photos</button>
+      </div>
+      <div style="display:none" class="internal-container">
+        <!-- Select -->
+        <div id="select" class="select_view">
+          <div id="image_content" class="circle">
+            <!--<h1>Select <span>4</span> Images</h1>-->
+            <h1 class="loading">Just a tick, loading your images...</h1>
+            <div id="images"><ul></ul></div>
+            <h1 class="loadingMore"></h1>
+          </div>
+        </div>
       </div>
       <div style="display:none">
-        <input type="file" id="file-input" accept="image/*"/>
+        <input type="file" id="file-input" accept="image/*" multiple/>
       </div>
     </div><!-- cm_picker -->
 
 
     <div id="overlay">
-      <div class="blur"></div>
-      <div class="modal">
-        <div><h1>EDIT</h1></div>
-        <div id="crop-view" style="margin: 20px 20px 20px 20px; width:350px; height:350px;">
-          <img src="">
-        </div>
-        <div style="display:flex; justify-content:space-between">
-          <button id="cancel-crop">Cancel</button>
-          <button id="save-crop">Save</button>
-        </div>
-      </div><!--.modal-->
+      <div style="display:flex;">
+        <div class="modal">
+          <div><h1>EDIT</h1></div>
+          <div id="crop-view">
+            <img src="" width="320" height="320">
+          </div>
+          <div id="crop-slider"></div>
+          <div style="display:flex; justify-content:space-between">
+            <button id="cancel-crop">Cancel</button>
+            <button id="save-crop">Save</button>
+          </div>
+        </div><!--.modal-->
+      </div>
     </div><!--overlay-->
   </div>
 </div>
