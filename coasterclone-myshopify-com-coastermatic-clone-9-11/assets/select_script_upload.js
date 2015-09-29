@@ -13,24 +13,25 @@
     var images = [];
     var tray = [];
 
-    $("#choose-photo").click(function(e) { $("#file-input").val("").click(); });
+    $("#images").on("click", "#choose-photo", function(e) { $("#file-input").val("").click(); });
     $("#file-input").change(function(e) {
       $(".internal-container").show();
       $(".loading").show();
-      var resolve = 0;
+      var resolve = this.files.length;
+      var addImage = function(img) {
+        tray.push(img);
+        if(images.length < 4) {
+          images.unshift(img);
+        }
+        if(--resolve === 0) {
+          // only render once all files have been read (resolved)
+          renderTray(tray, images);
+          renderShortlist(images);
+          $(".loading").hide();
+        }
+      };
       for(var i = 0, len = this.files.length; i < len; i++) {
-        readImage(this.files[i], function(img) {
-          tray.push(img);
-          if(images.length < 4) { 
-            images.unshift(img);
-          }
-          if(++resolve == len) {
-            // only render once all files have been read (resolved)
-            renderTray(tray, images);
-            renderShortlist(images);
-            $(".loading").hide();
-          }
-        });
+        readImage(this.files[i], addImage);
       }
     });
 
@@ -75,12 +76,12 @@
         });
         $cropview.cropper("setCanvasData", { "left": 0, "top": 0, "width": PREVIEW_DIAMETER, "height": PREVIEW_DIAMETER });
         $cropview.cropper("setCropBoxData", { "left": 0, "top": 0, "width": PREVIEW_DIAMETER, "height": PREVIEW_DIAMETER });
-        
+
         var slider = document.getElementById("crop-slider");
         if(slider.noUiSlider) { slider.noUiSlider.destroy(); }
         noUiSlider.create(slider, {
           "start": PREVIEW_DIAMETER,
-          "range": { "min": PREVIEW_DIAMETER, "max": PREVIEW_DIAMETER / DIAMETER * Math.max(img.width, img.height) }
+          "range": { "min": PREVIEW_DIAMETER, "max": $cropview.cropper("getCropBoxData").width / DIAMETER * Math.max(img.width, img.height) }
         });
         slider.noUiSlider.on("set", function(vals){
           var val = Number(vals[0]);
@@ -98,7 +99,8 @@
       renderTray(tray, images);
     });
 
-    $("#images").on("click", "li", function(e) {
+    $("#images").on("click", "li.tray", function(e) {
+      e.preventDefault();
       var index = $(this).data("index");
       var img = tray[index];
       if(images.length < 4) {
@@ -113,7 +115,9 @@
       Shopify.addItem(PRODUCT_VARIANT, 1, images);
     });
 
-    resetImages();
+    // initial render
+    renderShortlist(images);
+    renderTray(tray, images);
   });
 
   // Shopify hooks
@@ -139,29 +143,26 @@
     var reader = new FileReader();
     reader.onload = function (event) {
       // resize original to a memory-friendly size
-      resizeImage(event.target.result, 2*DIAMETER, 2*DIAMETER, "cover", callback);
+      resizeImage(event.target.result, 4*DIAMETER, 4*DIAMETER, "cover", callback);
     };
     reader.readAsDataURL(file);
   }
 
-  function resetImages() {
-    $("#shortlist li").css("background-image","").addClass("empty").find("a").hide();
-  }
+
 
   function renderTray(tray, images) {
-    $(".internal-container").toggle(tray.length > 0);
-    var $ul = $("<ul>").appendTo($("#images").empty());
+    $('<ul><li id="choose-photo"></li></ul>').appendTo($("#images").empty());
     tray.forEach(function(img, i) {
-      $('<li data-index="' + i + '">').toggleClass("shortlisted", images.indexOf(img) > -1).css({ 
+      $('<li data-index="' + i + '">').addClass("tray").toggleClass("shortlisted", images.indexOf(img) > -1).css({
         "background-image": "url(" + img.url + ")",
         "background-size": "cover"
-      }).appendTo($ul);
+      }).prependTo("#images ul");
     });
   }
-  
+
   function renderShortlist(images) {
     // reset
-    resetImages();
+    $("#shortlist li").css("background-image","").addClass("empty").find("a").hide();
 
     // resize and crop to square
     images.forEach(function(img, i) {
@@ -184,7 +185,6 @@
     var message = "Select <span>" + (4 - images.length) + "</span> Images";
     var midSelection = images.length > 0 && images.length < 4;
     $("#msg-border").toggle(images.length === 0);
-    $("#choose-photo").toggle(images.length < 4);
     $("h1#select-image-count").html(message).toggleClass("select-image-count-mid-selection", midSelection).toggle(images.length < 4);
     if(images.length == 4) {
       $("#add-to-cart").fadeIn();
@@ -197,13 +197,12 @@
 
   // Utility to squarify and apply user-defined cropping
   function squarifyImage(img, wh, callback) {
-    resizeImage(img.url, wh, wh, "cover", function(resized) {
-      var scaleFactor = resized.width / resized.naturalWidth;
-      var cX = Math.round((img.x*scaleFactor) || Math.max(0, (wh - resized.width) / 2));
-      var cY = Math.round((img.y*scaleFactor) || Math.max(0, (wh - resized.height) / 2));
-      var cW = Math.round((img.w*scaleFactor) || Math.min(resized.width, wh));
-      var cH = Math.round((img.h*scaleFactor) || Math.min(resized.height, wh));
-      cropImage(resized.url, cX, cY, cW, cH, callback);
+    var cX = Math.round(img.x !== undefined ? img.x : Math.max(0, (img.width - img.height) / 2));
+    var cY = Math.round(img.y !== undefined ? img.y : Math.max(0, (img.height - img.width) / 2));
+    var cW = Math.round(img.w !== undefined ? img.w : Math.min(img.width, img.height));
+    var cH = Math.round(img.h !== undefined ? img.h : Math.min(img.width, img.height));
+    cropImage(img.url, cX, cY, cW, cH, function(cropped) {
+      resizeImage(cropped.url, wh, wh, "cover", callback);
     });
   }
 
@@ -226,7 +225,7 @@
   function resizeImage(dataURL, w, h, mode, callback) {
     var tmp = new Image();
     tmp.onload = function() {
-      var downsample = Math[mode == "cover" ? "min" : "max"](this.naturalWidth / w, this.naturalHeight / h);
+      var downsample = Math.max(1, Math[mode == "cover" ? "min" : "max"](this.naturalWidth / w, this.naturalHeight / h));
       var cW = Math.round(this.naturalWidth / downsample);
       var cH = Math.round(this.naturalHeight / downsample);
       var c = newCanvasContext(cW, cH);
@@ -254,7 +253,7 @@
   }
 
   // Convert datURL back to File blob for upload
-  function dataURLtoBlob(dataURL) {
+ function dataURLtoBlob(dataURL) {
     var binary = atob(dataURL.split(',')[1]);
     var array = [];
     for(var i = 0; i < binary.length; i++) {
@@ -264,3 +263,4 @@
   }
 
 })($, Shopify, window);
+

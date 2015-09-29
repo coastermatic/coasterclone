@@ -10,7 +10,7 @@
 
     <div class="cm_picker">
       <div id="sticky-anchor"></div>
-      <div id="shortlist_container" class="select_view">
+      <div id="shortlist_container" class="upload select_view">
         <div id="shortlist" class="circle">
           <h1 id="select-image-count">Select <span>4</span> Images</h1>
           <p id="msg-border">We'll print your photos the same way you see them here. Crop images using <span>the crop icon</span>.</p>
@@ -23,6 +23,7 @@
               <a class="remove-link" href="#" title="remove coasters from cart">Remove</a>
               <a class="crop" style="cursor: pointer; position:absolute; z-index:10; left: 0;">crop</a>
             </li>
+            <div class="breaker"></div>
             <li class="2 empty">
               <a class="remove-link" href="#" title="remove coasters from cart">Remove</a>
               <a class="crop" style="cursor: pointer; position:absolute; z-index:10; left: 0;">crop</a>
@@ -37,15 +38,12 @@
           </div>
         </div>
       </div>
-      <div class="cart-or-crop">
-        <button id="choose-photo">Choose Photos</button>
-      </div>
-      <div style="display:none" class="internal-container">
+      <div class="internal-container">
         <!-- Select -->
         <div id="select" class="select_view">
           <div id="image_content" class="circle">
             <!--<h1>Select <span>4</span> Images</h1>-->
-            <h1 class="loading">Just a tick, loading your images...</h1>
+            <h1 class="loading" style="display:none">Just a tick, loading your images...</h1>
             <div id="images"><ul></ul></div>
             <h1 class="loadingMore"></h1>
           </div>

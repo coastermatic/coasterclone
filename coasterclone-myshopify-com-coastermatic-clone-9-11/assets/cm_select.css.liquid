@@ -9,13 +9,13 @@ div.internal-container {
 }
 
 #select ul li {
-	margin: 0 10px 12px; 
-	display: inline; 
+	margin: 0 10px 12px;
+	display: inline;
 	float:left;
 }
 
 h1.loading, .loadingMore {
-	color: #CCC; 
+	color: #CCC;
 	clear:both;
 	text-align: center;
 }
@@ -70,7 +70,7 @@ h1#select-image-count.select-image-count-mid-selection span {
 
 p#instagram-logged-in-as {
 	margin: 200px 0 0 0;
-	text-align: center;	
+	text-align: center;
 	line-height: 1.5;
 	position: absolute;
 	width: 100%;
@@ -80,7 +80,7 @@ p#instagram-logged-in-as {
 
 p#msg-border {
 	margin: 155px 0 0 0;
-	text-align: center;	
+	text-align: center;
 	line-height: 1.5;
 	position: absolute;
 	width: 100%;
@@ -110,7 +110,7 @@ div#shortlist_container ul {
 	width:1013px;
 	padding: 10px;
 
-/*	
+/*
 	Original values
 	overflow: auto;
 	padding: 10px 25px;
@@ -187,7 +187,7 @@ div#shortlist_container {
 	background: #fff;
 	padding: 10px 10px;
 	z-index: 100;
-	width: 1090px; 
+	width: 100%;
 /*	-webkit-box-shadow: 0px 0px 20px 0px #666;
 	box-shadow: 0px 0px 20px 0px #666;
 	*/
@@ -201,7 +201,7 @@ div#shortlist_container div#shortlist {
 	/*margin: -130px auto 0;*/
 	margin:auto;
 	overflow: auto;
-	position: relative;	
+	position: relative;
 	/*width: {{ settings.min_body_width }}; */
 	/*width: 1158px;  */
 }
@@ -211,7 +211,7 @@ div#shortlist_container div#shortlist ul li.empty {
 	-webkit-box-shadow: inset 0px 0px 40px 20px #ccc;
 	-moz-box-shadow: inset 0px 0px 40px 20px #ccc;
 	box-shadow: inset 0px 0px 40px 20px #ccc;
-} 
+}
 
 div#shortlist ul li {
 	display:inline-block;
@@ -227,11 +227,11 @@ div#shortlist ul li:last-child {
 
 div#shortlist ul li.empty {
 	background: #fff;
-	opacity: .3; 
+	opacity: .3;
 }
 
 div#shortlist.circle ul li {
-	border-radius: 150px;	
+	border-radius: 150px;
 }
 
 #shortlist ul li img {
@@ -373,7 +373,7 @@ div#shop-url {
 
 .single-coaster p#instagram-logged-in-as {
 	margin: 0 0 0 0;
-	text-align: left;	
+	text-align: left;
 	line-height: 1.5;
 	position: relative;
 	width: 100%;
@@ -397,7 +397,7 @@ div#shop-url {
   width:450px;
   margin:auto auto;
   background-color:#fff;
-  padding:20px;
+  padding:10px 20px 10px 20px;
   text-align:center;
 }
 
@@ -419,4 +419,47 @@ span.cropper-view-box {
 
 #images ul li {
   cursor: pointer;
+}
+
+li#choose-photo {
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6,10 h8 M10,6 v8 z" stroke-width="1.25" stroke="#555" stroke-linejoin="round" stroke-linecap="round"/></svg>');
+}
+
+@media (max-width: 1100px) {
+  div#shortlist ul .breaker { display:block; }
+  div#shortlist_container.upload ul { width: 100%; }
+
+  h1#select-image-count {
+    margin:0px;
+    position:relative;
+  }
+
+  h1#select-image-count.select-image-count-mid-selection {
+    right: 0;
+    width: 100%;
+    margin: auto;
+  }
+
+  div#shortlist ul li, div#image_content li {
+    margin:2%;
+    width: 45%;
+    height: 45%;
+    padding-bottom:45%;
+  }
+
+  div#shortlist.circle ul li, div#image_content.circle li {
+    border-radius:50%;
+  }
+
+  div#shortlist_container, div#shortlist_container ul {
+    padding: 0;
+  }
+
+  div#shortlist_container div#shortlist ul li {
+    background-size:cover;
+  }
+}
+
+@media (min-width: 1101px) {
+  div#shortlist ul .breaker { display:none; }
 }
