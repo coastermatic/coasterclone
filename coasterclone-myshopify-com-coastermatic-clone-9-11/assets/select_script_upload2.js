@@ -3,38 +3,33 @@
   // globals
   // cropped dimensions
   var DIAMETER = 640;
-  var PREVIEW_DIAMETER = Math.min(screen.width-20, 400);
+  var PREVIEW_DIAMETER = 320;
 
   // photo-upload, set of 4
   var PRODUCT_VARIANT = 7432867779;
 
+  
+  
   // setup event handlers, controller scope
   $(document).ready(function() {
     var images = [];
-    var tray = [];
 
-    // rectify for image
-    $("#crop-view > img").attr("width", PREVIEW_DIAMETER).attr("height", PREVIEW_DIAMETER);
-
-    $("#choose-photo").on("click", function(e) { $("#file-input").val("").click(); });
+    $("#choose-photo").click(function(e) { $("#file-input").val("").click(); });
     $("#file-input").change(function(e) {
       $(".internal-container").show();
       $(".loading").show();
-      var resolve = this.files.length;
-      var addImage = function(img) {
-        tray.push(img);
-        if(images.length < 4) {
-          images.unshift(img);
-        }
-        if(--resolve === 0) {
-          // only render once all files have been read (resolved)
-          renderTray(tray, images);
-          renderShortlist(images);
-          $(".loading").hide();
-        }
-      };
+      var resolve = 0;
       for(var i = 0, len = this.files.length; i < len; i++) {
-        readImage(this.files[i], addImage);
+        readImage(this.files[i], function(img) {
+          if(images.length < 4) { 
+            images.unshift(img);
+          }
+          if(++resolve == len) {
+            // only render once all files have been read (resolved)
+            renderShortlist(images);
+            $(".loading").hide();
+          }
+        });
       }
     });
 
@@ -58,11 +53,6 @@
       var img = images[index];
       $("#overlay").show();
 
-      // detect small screens and adjust for compact layout
-      if($("#overlay").width() == screen.width) {
-        scrollTo(0,0);
-      }
-
       // setup the cropper after the UI has updated (to prevent rendering problems)
       setTimeout(function() {
         // reset cropper and slider
@@ -80,20 +70,18 @@
           background: false,
           dragCrop: false,
           cropBoxMovable: false,
-          cropBoxResizable: false,
-          built: function() {
-            $cropview.cropper("zoom", Math.max(0, (Math.max(img.naturalWidth, img.naturalHeight) / Math.min(img.naturalWidth, img.naturalHeight)) - 1));
-            $cropview.cropper("setCropBoxData", { "left": 0, "top": 0, "width": PREVIEW_DIAMETER, "height": PREVIEW_DIAMETER });
-          }
+          cropBoxResizable: false
         });
-
+        $cropview.cropper("setCanvasData", { "left": 0, "top": 0, "width": PREVIEW_DIAMETER, "height": PREVIEW_DIAMETER });
+        $cropview.cropper("setCropBoxData", { "left": 0, "top": 0, "width": PREVIEW_DIAMETER, "height": PREVIEW_DIAMETER });
+        
         var slider = document.getElementById("crop-slider");
         if(slider.noUiSlider) { slider.noUiSlider.destroy(); }
         noUiSlider.create(slider, {
           "start": PREVIEW_DIAMETER,
           "range": { "min": PREVIEW_DIAMETER, "max": $cropview.cropper("getCropBoxData").width / DIAMETER * Math.max(img.width, img.height) }
         });
-        slider.noUiSlider.on("set", function(vals){
+        slider.noUiSlider.on("set", function(vals){ 
           var val = Number(vals[0]);
           console.log(val, typeof val);
           $("#crop-view > img").cropper("setCanvasData", { "left": 0, "top": 0, "width": 0+val, "height": 0+val});
@@ -106,28 +94,14 @@
       e.preventDefault();
       images.splice($(this).parent().data("index"),1);
       renderShortlist(images);
-      renderTray(tray, images);
     });
-
-    $("#images").on("click", "li.tray", function(e) {
-      e.preventDefault();
-      var index = $(this).data("index");
-      var img = tray[index];
-      if(images.length < 4) {
-        images.unshift(img);
-        renderShortlist(images);
-        renderTray(tray, images);
-      }
-    });
-
+    
     $("a#add-to-cart").on("click", function (e) {
       e.preventDefault();
       Shopify.addItem(PRODUCT_VARIANT, 1, images);
     });
 
-    // initial render
-    renderShortlist(images);
-    renderTray(tray, images);
+    resetImages();
   });
 
   // Shopify hooks
@@ -158,21 +132,13 @@
     reader.readAsDataURL(file);
   }
 
-
-
-  function renderTray(tray, images) {
-    $("#images").empty();
-    tray.forEach(function(img, i) {
-      $('<li data-index="' + i + '">').addClass("tray").toggleClass("shortlisted", images.indexOf(img) > -1).css({
-        "background-image": "url(" + img.url + ")",
-        "background-size": "cover"
-      }).prependTo("#images");
-    });
+  function resetImages() {
+    $("#shortlist li").css("background-image","").addClass("empty").find("a").hide();
   }
 
   function renderShortlist(images) {
     // reset
-    $("#shortlist li").css("background-image","").addClass("empty").find("a").hide();
+    resetImages();
 
     // resize and crop to square
     images.forEach(function(img, i) {
@@ -195,6 +161,7 @@
     var message = "Select <span>" + (4 - images.length) + "</span> Images";
     var midSelection = images.length > 0 && images.length < 4;
     $("#msg-border").toggle(images.length === 0);
+    $("#choose-photo").toggle(images.length < 4);
     $("h1#select-image-count").html(message).toggleClass("select-image-count-mid-selection", midSelection).toggle(images.length < 4);
     if(images.length == 4) {
       $("#add-to-cart").fadeIn();
