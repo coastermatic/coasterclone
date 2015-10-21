@@ -128,6 +128,7 @@
     // initial render
     renderShortlist(images);
     renderTray(tray, images);
+    $("#file-input").click();
   });
 
   // Shopify hooks
@@ -136,8 +137,8 @@
     formdata.append("id", product_variant);
     formdata.append("quantity", quantity);
     images.forEach(function(img, i) {
-      formdata.append("properties[_img_" + (i+1) + "_url]", img.cropped);
-      formdata.append("properties[_img_" + (i+1) + "_thumbnail]", img.thumbnail);
+      formdata.append("properties[_img_" + (i+1) + "_url]", img.cropped, "crop_" + img.name);
+      formdata.append("properties[_img_" + (i+1) + "_thumbnail]", img.thumbnail, "thumb_" + img.name);
     });
 
     var xhr = new XMLHttpRequest();
@@ -152,13 +153,36 @@
   function readImage(file, callback) {
     var reader = new FileReader();
     reader.onload = function (event) {
-      // resize original to a memory-friendly size
-      resizeImage(event.target.result, 4*DIAMETER, 4*DIAMETER, "cover", callback);
+      var dataURL = event.target.result;
+
+      // helper functions
+      function wrap_callback(data) { data.name = file.name; callback(data); }
+      function resize(data) { resizeImage(data.url, 4*DIAMETER, 4*DIAMETER, "cover", wrap_callback); }
+      function mirror(data) { mirrorImage(data.url, resize); }
+
+      // check and correct orientation
+      getOrientation(file, function(orientation) {
+        if(orientation == 1) {
+          resize({ "url": dataURL });
+        } else if(orientation == 8) {
+          rotateImage(dataURL, -1, resize);
+        } else if (orientation == 6) {
+          rotateImage(dataURL, 1, resize);
+        } else if (orientation == 3) {
+          rotateImage(dataURL, 2, resize);
+        } else if(orientation == 2) {
+          mirror({ "url": dataURL });
+        } else if (orientation == 7) {
+          rotateImage(dataURL, -1, mirror);
+        } else if (orientation == 4) {
+          rotateImage(dataURL, 2, mirror);
+        } else if (orientation == 5) {
+          rotateImage(dataURL, 1, mirror);
+        }
+      });
     };
     reader.readAsDataURL(file);
   }
-
-
 
   function renderTray(tray, images) {
     $("#images").empty();
@@ -251,6 +275,49 @@
     tmp.src = dataURL;
   }
 
+  // rotate by multiples of PI/2 (90 deg)
+  function rotateImage(dataURL, dir, callback) {
+    var tmp = new Image();
+    tmp.onload = function() {
+      dir = dir || 1;
+      var newW = Math.abs(dir) % 2 == 1 ? this.naturalHeight : this.naturalWidth;
+      var newH = Math.abs(dir) % 2 == 1 ? this.naturalWidth : this.naturalHeight;
+      var c = newCanvasContext(newW, newH);
+      var tx = Math.round(Math.cos(dir*Math.PI/2) > Math.sin(dir*Math.PI/2) ? 0 : newW);
+      var ty = Math.round(Math.cos(dir*Math.PI/2) + Math.sin(dir*Math.PI/2) > 0 ? 0 : newH);
+      c.translate(tx,ty);
+      c.rotate(dir * Math.PI/2);
+      c.drawImage(this, 0, 0);
+      callback({
+        "naturalWidth": this.naturalWidth,
+        "naturalHeight": this.naturalHeight,
+        "width": newW,
+        "height": newH,
+        "url": c.canvas.toDataURL("image/jpeg")
+      });
+    };
+    tmp.src = dataURL;
+  }
+
+  // mirror along horizontal axis
+  function mirrorImage(dataURL, callback) {
+    var tmp = new Image();
+    tmp.onload = function() {
+      var c = module.exports.newCanvasContext(this.naturalWidth, this.naturalHeight);
+      canvasContext.translate(this.naturalWidth, 0);
+      canvasContext.scale(-1, 1);
+      c.drawImage(this, 0, 0);
+      callback({
+        "naturalWidth": this.naturalWidth,
+        "naturalHeight": this.naturalHeight,
+        "width": this.width, 
+        "height": this.height, 
+        "url": c.canvas.toDataURL("image/jpeg")
+      });
+    };
+    tmp.src = dataURL;
+  }
+
   // Crop rectangle defined by (x, y), (x+w, y+h).
   function cropImage(dataURL, x, y, w, h, callback) {
     var tmp = new Image();
@@ -262,7 +329,7 @@
     tmp.src = dataURL;
   }
 
-  // Convert datURL back to File blob for upload
+  // Convert dataURL back to File blob for upload
  function dataURLtoBlob(dataURL) {
     var binary = atob(dataURL.split(',')[1]);
     var array = [];
@@ -272,5 +339,33 @@
     return new Blob([new Uint8Array(array)], {"type": "image/jpeg"});
   }
 
+  // http://stackoverflow.com/a/32490603
+  function getOrientation(file, callback) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+
+      var view = new DataView(e.target.result);
+      if (view.getUint16(0, false) != 0xFFD8) return callback(-2);
+      var length = view.byteLength;
+      var offset = 2;
+      while (offset < length) {
+        var marker = view.getUint16(offset, false);
+        offset += 2;
+        if (marker == 0xFFE1) {
+          var little = view.getUint16(offset += 8, false) == 0x4949;
+          offset += view.getUint32(offset + 4, little);
+          var tags = view.getUint16(offset, little);
+          offset += 2;
+          for (var i = 0; i < tags; i++)
+          if (view.getUint16(offset + (i * 12), little) == 0x0112)
+            return callback(view.getUint16(offset + (i * 12) + 8, little));
+        }
+        else if ((marker & 0xFF00) != 0xFF00) break;
+        else offset += view.getUint16(offset, false);
+      }
+      return callback(-1);
+    };
+    reader.readAsArrayBuffer(file.slice(0, 64 * 1024));
+  }
 })($, Shopify, window);
 
