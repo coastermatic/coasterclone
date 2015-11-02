@@ -1,0 +1,68 @@
+{{ 'cropper.min.css' | asset_url | stylesheet_tag }}
+{{ 'cropper.min.js' | asset_url | script_tag }}
+{{ 'nouislider.min.css' | asset_url | stylesheet_tag }}
+{{ 'nouislider.min.js' | asset_url | script_tag }}
+{{ 'select_script_upload.js' | asset_url | script_tag }}
+
+<div id="product" class="{{ product.handle }}">
+
+  <div class="row clearfix">
+
+    <div class="cm_picker">
+      <div id="sticky-anchor"></div>
+      <div id="shortlist_container" class="select_view">
+        <div id="shortlist" class="circle">
+          <h1 id="select-image-count">Select <span>4</span> Images</h1>
+          <p id="msg-border">We'll print your photos the same way you see them here. Crop images using <span>the crop icon</span>.</p>
+          <ul>
+            <li class="0 empty">
+              <a class="remove-link" href="#" title="remove coasters from cart">Remove</a>
+              <a class="crop" style="cursor: pointer; position:absolute; z-index:10; left: 0;">crop</a>
+            </li>
+            <li class="1 empty">
+              <a class="remove-link" href="#" title="remove coasters from cart">Remove</a>
+              <a class="crop" style="cursor: pointer; position:absolute; z-index:10; left: 0;">crop</a>
+            </li>
+            <div class="breaker"></div>
+            <li class="2 empty">
+              <a class="remove-link" href="#" title="remove coasters from cart">Remove</a>
+              <a class="crop" style="cursor: pointer; position:absolute; z-index:10; left: 0;">crop</a>
+            </li>
+            <li class="3 empty">
+              <a class="remove-link" href="#" title="remove coasters from cart">Remove</a>
+              <a class="crop" style="cursor: pointer; position:absolute; z-index:10; left: 0;">crop</a>
+            </li>
+          </ul>
+          <div class="cart-or-crop">
+            <h1><a id="add-to-cart" style="display:none" href="#" class="next-step button">Add to cart</a></h1>
+          </div>
+        </div>
+      </div>
+      <div class="cart-or-crop">
+        <button id="choose-photo">Choose Photo</button>
+      </div>
+      <div style="display:none">
+        <input type="file" id="file-input" accept="image/*" >
+      </div>
+    </div><!-- cm_picker -->
+
+
+    <div id="overlay">
+      <div style="display:flex;">
+        <div class="modal">
+          <div><h1>EDIT</h1></div>
+          <div id="crop-view">
+            <img src="" width="320" height="320">
+          </div>
+          <div id="crop-slider"></div>
+          <div style="display:flex; justify-content:space-between">
+            <button id="cancel-crop">Cancel</button>
+            <button id="save-crop">Save</button>
+          </div>
+        </div><!--.modal-->
+      </div>
+    </div><!--overlay-->
+  </div>
+</div>
+<div id="shop-url">{{ shop.url }}</div> {% comment %}necessary to pass liquid variable to javascript{% endcomment %}
+

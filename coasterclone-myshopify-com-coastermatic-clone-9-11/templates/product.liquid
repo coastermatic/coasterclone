@@ -1,5 +1,7 @@
-{% if product.handle == 'instagram-coasters' or 'photo-upload' "%}
-  {% include 'instagram-coasters' %} 
+{% if product.handle == 'instagram-coasters'%}
+  {% include 'instagram-coasters' %}
+{% elsif product.handle == 'photo-upload' %}
+  {% include 'photo-upload' %}
 {% elsif product.handle == 'single-coaster' %}
   {% include 'single-instagram-coasters' %} 
 {% else %}
@@ -110,7 +112,7 @@
         {% include 'share-buttons' %}
       {% endif %}
 
-    {% if settings.display-fitting-guide-link || settings.display-ask-us-link %}
+    {% if settings.display-fitting-guide-link or settings.display-ask-us-link %}
     <ul class="product-more-actions">
 
       {% if settings.display-fitting-guide-link %}

@@ -9,13 +9,13 @@ div.internal-container {
 }
 
 #select ul li {
-	margin: 0 10px 12px; 
-	display: inline; 
+	margin: 0 10px 12px;
+	display: inline;
 	float:left;
 }
 
 h1.loading, .loadingMore {
-	color: #CCC; 
+	color: #CCC;
 	clear:both;
 	text-align: center;
 }
@@ -70,7 +70,7 @@ h1#select-image-count.select-image-count-mid-selection span {
 
 p#instagram-logged-in-as {
 	margin: 200px 0 0 0;
-	text-align: center;	
+	text-align: center;
 	line-height: 1.5;
 	position: absolute;
 	width: 100%;
@@ -80,7 +80,7 @@ p#instagram-logged-in-as {
 
 p#msg-border {
 	margin: 155px 0 0 0;
-	text-align: center;	
+	text-align: center;
 	line-height: 1.5;
 	position: absolute;
 	width: 100%;
@@ -110,7 +110,7 @@ div#shortlist_container ul {
 	width:1013px;
 	padding: 10px;
 
-/*	
+/*
 	Original values
 	overflow: auto;
 	padding: 10px 25px;
@@ -187,7 +187,7 @@ div#shortlist_container {
 	background: #fff;
 	padding: 10px 10px;
 	z-index: 100;
-	width: 1090px; 
+	width: 100%;
 /*	-webkit-box-shadow: 0px 0px 20px 0px #666;
 	box-shadow: 0px 0px 20px 0px #666;
 	*/
@@ -201,7 +201,7 @@ div#shortlist_container div#shortlist {
 	/*margin: -130px auto 0;*/
 	margin:auto;
 	overflow: auto;
-	position: relative;	
+	position: relative;
 	/*width: {{ settings.min_body_width }}; */
 	/*width: 1158px;  */
 }
@@ -211,7 +211,7 @@ div#shortlist_container div#shortlist ul li.empty {
 	-webkit-box-shadow: inset 0px 0px 40px 20px #ccc;
 	-moz-box-shadow: inset 0px 0px 40px 20px #ccc;
 	box-shadow: inset 0px 0px 40px 20px #ccc;
-} 
+}
 
 div#shortlist ul li {
 	display:inline-block;
@@ -227,11 +227,11 @@ div#shortlist ul li:last-child {
 
 div#shortlist ul li.empty {
 	background: #fff;
-	opacity: .3; 
+	opacity: .3;
 }
 
 div#shortlist.circle ul li {
-	border-radius: 150px;	
+	border-radius: 150px;
 }
 
 #shortlist ul li img {
@@ -281,6 +281,15 @@ div#shortlist_container a.remove-link {
 
 div#shortlist_container a.remove-link {
 	background-position: -70px 0;
+}
+
+div#shortlist_container a.crop.pencil {
+  background: url("{{ 'icon-pencil-light.svg' | asset_url }}") 0 0 no-repeat;
+}
+
+div#shortlist_container li:hover a.crop.pencil,
+div#shortlist_container a:hover.crop.pencil {
+  background: url("{{ 'icon-pencil-dark.svg' | asset_url }}") 0 0 no-repeat;
 }
 
 a.remove-link {
@@ -373,10 +382,138 @@ div#shop-url {
 
 .single-coaster p#instagram-logged-in-as {
 	margin: 0 0 0 0;
-	text-align: left;	
+	text-align: left;
 	line-height: 1.5;
 	position: relative;
 	width: 100%;
 	z-index:0;
 	font-size: 14px;
 	}
+
+#product.photo-upload #overlay {
+  display: none;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width:100%;
+  height:100%;
+  text-align:center;
+  z-index: 1000;
+  background: rgba(0,0,0,.5);
+}
+
+#product.photo-upload #overlay .modal {
+  width:500px;
+  margin:auto auto;
+  background-color:#fff;
+  padding:30px 50px 30px 50px;
+  text-align:center;
+}
+
+#product.photo-upload .cropper-drag-box.cropper-modal {
+  background-color: rgba(255,255,255,0.8) !important;
+  opacity: 1;
+}
+
+#product.photo-upload span.cropper-view-box {
+  border-radius: 50%;
+  outline: none !important;
+}
+
+#product.photo-upload #crop-slider {
+  width: 300px;
+  height: 7px;
+  margin: 10px auto 10px auto;
+}
+  
+#product.photo-upload #crop-slider div.noUi-handle {
+  border-radius: 8px;
+  height: 16px;
+  width: 16px;
+  left: -7px;
+  background-color: #dc1960;
+  box-shadow: none;
+}
+
+#product.photo-upload #crop-slider div.noUi-handle:after, #crop-slider div.noUi-handle:before {
+  background: none;
+}
+
+#product.photo-upload #images ul li {
+  cursor: pointer;
+}
+
+#product.photo-upload li#choose-photo {
+  background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path fill="#010101" d="M66.3,47H51.7V33.4c0-1.4-1.1-2.5-2.5-2.5s-2.5,1.1-2.5,2.5V47H33.3c-1.4,0-2.5,1.1-2.5,2.5s1.1,2.5,2.5,2.5 h13.4v14.5c0,1.4,1.1,2.5,2.5,2.5s2.5-1.1,2.5-2.5V52h14.6c1.4,0,2.5-1.1,2.5-2.5S67.7,47,66.3,47z"/></svg>');
+}
+
+#product.photo-upload .flex-col {
+  display:flex;
+  justify-content:center;
+  flex-direction: column;
+}
+
+#product.photo-upload .flex-row {
+  display:flex;
+  justify-content:space-between;
+}
+
+@media (max-width: 1100px) {
+  #product.photo-upload div#shortlist ul .breaker { display:block; }
+  #product.photo-upload div#shortlist_container.upload ul { width: 100%; }
+  #product.photo-upload div#shortlist_container a.crop.pencil { left:-10px !important; top:-10px !important; }
+  #product.photo-upload h1#select-image-count {
+    margin:0px;
+    position:relative;
+  }
+
+  #product.photo-upload h1#select-image-count.select-image-count-mid-selection {
+    right: 0;
+    width: 100%;
+    margin: auto;
+  }
+
+  #product.photo-upload div#shortlist ul li, #product.photo-upload div#image_content li {
+    margin:2%;
+    width: 45%;
+    height: 45%;
+    padding-bottom:45%;
+  }
+
+  #product.photo-upload div#shortlist.circle ul li, #product.photo-upload div#image_content.circle li {
+    border-radius:50%;
+  }
+
+  #product.photo-upload div#shortlist_container, #product.photo-upload div#shortlist_container ul {
+    padding: 0;
+  }
+
+  #product.photo-upload div#shortlist_container div#shortlist ul li {
+    background-size:cover;
+  }
+
+  #product.photo-upload div#image_content li#choose-photo {
+    margin: 0 0 0 27.5%;
+  }
+
+  #product.photo-upload #overlay {
+    position: absolute;
+  }
+
+  #product.photo-upload #overlay .modal {
+    width:100%;
+    max-width:500px;
+    margin:auto auto;
+    background-color:#fff;
+    padding:10px 15px 10px 15px;
+    text-align:center;
+  }
+
+  #product.photo-upload h1 {
+    margin: 0;
+  }
+}
+
+@media (min-width: 1101px) {
+  #product.photo-upload div#shortlist ul .breaker { display:none; }
+}

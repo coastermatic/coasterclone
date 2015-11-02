@@ -1,0 +1,78 @@
+{{ 'cropper.min.css' | asset_url | stylesheet_tag }}
+{{ 'cropper.min.js' | asset_url | script_tag }}
+{{ 'nouislider.min.css' | asset_url | stylesheet_tag }}
+{{ 'nouislider.min.js' | asset_url | script_tag }}
+{{ 'select_script_upload.js' | asset_url | script_tag }}
+
+<div id="product" class="{{ product.handle }}">
+
+  <div class="row clearfix">
+
+    <div class="cm_picker">
+      <div id="sticky-anchor"></div>
+      <div id="shortlist_container" class="upload select_view">
+        <div id="shortlist" class="circle">
+          <h1 id="select-image-count">Select <span>4</span> Images</h1>
+          <p id="msg-border">We'll print your photos the same way you see them here. Crop images using <span>the crop icon</span>.</p>
+          <ul>
+            <li class="0 empty">
+              <a class="remove-link" href="#" title="remove coasters from cart">Remove</a>
+              <a class="crop pencil" style="cursor: pointer; position:absolute; z-index:10; left: 0;">crop</a>
+            </li>
+            <li class="1 empty">
+              <a class="remove-link" href="#" title="remove coasters from cart">Remove</a>
+              <a class="crop pencil" style="cursor: pointer; position:absolute; z-index:10; left: 0;">crop</a>
+            </li>
+            <div class="breaker"></div>
+            <li class="2 empty">
+              <a class="remove-link" href="#" title="remove coasters from cart">Remove</a>
+              <a class="crop pencil" style="cursor: pointer; position:absolute; z-index:10; left: 0;">crop</a>
+            </li>
+            <li class="3 empty">
+              <a class="remove-link" href="#" title="remove coasters from cart">Remove</a>
+              <a class="crop pencil" style="cursor: pointer; position:absolute; z-index:10; left: 0;">crop</a>
+            </li>
+          </ul>
+          <div class="cart-or-crop">
+            <h1><a id="add-to-cart" style="display:none" href="#" class="next-step button">Add to cart</a></h1>
+          </div>
+        </div>
+      </div>
+      <div class="internal-container">
+        <!-- Select -->
+        <div id="select" class="select_view">
+          <div id="image_content" class="circle">
+            <!--<h1>Select <span>4</span> Images</h1>-->
+            <h1 class="loading" style="display:none">Just a tick, loading your images...</h1>
+            <div><ul><span id="images"></span><div class="breaker"></div><li id="choose-photo"></li></ul></div>
+            <h1 class="loadingMore"></h1>
+          </div>
+        </div>
+      </div>
+      <div style="display:none">
+        <input type="file" id="file-input" accept="image/*" multiple/>
+      </div>
+    </div><!-- cm_picker -->
+
+
+    <div id="overlay">
+      <div style="display:flex;">
+        <div class="modal">
+          <div><h1>EDIT</h1></div>
+          <div id="crop-view">
+            <img src="" width="400" height="400">
+          </div>
+          <div>
+            <div id="crop-slider"></div>
+            <div>Drag the photo to reposition, use slider to zoom.</div>
+          </div>
+          <div class="flex-row">
+            <button id="cancel-crop">Cancel</button>
+            <button id="save-crop">Save</button>
+          </div>
+        </div><!--.modal-->
+      </div>
+    </div><!--overlay-->
+  </div>
+</div>
+<div id="shop-url">{{ shop.url }}</div> {% comment %}necessary to pass liquid variable to javascript{% endcomment %}
