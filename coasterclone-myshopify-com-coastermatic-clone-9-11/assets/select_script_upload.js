@@ -178,6 +178,8 @@
           rotateImage(dataURL, 2, mirror);
         } else if (orientation == 5) {
           rotateImage(dataURL, 1, mirror);
+        } else {
+          resize({ "url": dataURL });
         }
       });
     };
