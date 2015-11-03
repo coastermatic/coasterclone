@@ -1,0 +1,178 @@
+<div class="page-header">
+  <h1>Addresses</h1>
+</div>
+
+<div class="account-wrapper">
+
+  <div class="account-content">
+
+    {% if customer.addresses.size > 0 %}
+
+      <div class="address-list">
+
+        {% for address in customer.addresses %}
+          <div class="account-address">
+
+            <div id="view_address_{{address.id}}">
+              <h5>{{ address.first_name }} {{ address.last_name }} {% if address == customer.default_address %} (default){% endif %}</h5>
+              <span>{{ address.company }}</span>
+              <span>{{ address.street }}</span>
+              <span>{{ address.city }}{% if address.province_code %}, {{ address.province_code }}{% endif %}</span>
+              <span>{{ address.country }} {{ address.zip }}</span>
+              <span>{{ address.phone }}</span>
+
+              <p>{{ "Edit" | edit_customer_address_link: address.id }} or {{ "Delete" | delete_customer_address_link: address.id }}</p>
+            </div>
+
+            <div id="edit_address_{{address.id}}" style="display:none;">
+              <div class="edit-add-address">
+                {% form 'customer_address', address %}
+                  <div class="input-wrapper">
+                    <label>First name</label>
+                    <input type="text" name="address[first_name]" value="{{form.first_name}}">
+                  </div>
+                  <div class="input-wrapper">
+                    <label>Last name</label>
+                    <input type="text" name="address[last_name]" value="{{form.last_name}}">
+                  </div>
+                  <div class="input-wrapper">
+                    <label>Company</label>
+                    <input type="text" name="address[company]" value="{{form.company}}">
+                  </div>
+                  <div class="input-wrapper">
+                    <label>Address line 1</label>
+                    <input type="text" name="address[address1]" value="{{form.address1}}">
+                  </div>
+                  <div class="input-wrapper">
+                    <label>Address line 2</label>
+                    <input type="text" name="address[address2]" value="{{form.address2}}">
+                  </div>
+                  <div class="input-wrapper">
+                    <label>City</label>
+                    <input type="text" name="address[city]" value="{{form.city}}">
+                  </div>
+                  <div class="input-wrapper">
+                    <label>Country</label>
+
+                    <div class="select-wrapper">
+                      <div class="selected-option">Select a country</div>
+                      <select id="address-country-{{form.id}}" name="address[country]" data-default="{{form.country}}">{{ country_option_tags }}</select>
+                    </div>
+                  </div>
+                  <div class="input-wrapper" id="address-province-container-{{ address.id }}" style="display:none">
+                    <label>State / Province</label>
+
+                    <div class="select-wrapper">
+                      <div class="selected-option">Select a state / province</div>
+                      <select id="address-province-{{ address.id }}" name="address[province]" data-default="{{form.province}}"></select>
+                    </div>
+                  </div>
+                  <div class="input-wrapper">
+                    <label>ZIP / Postal code</label>
+                    <input type="text" name="address[zip]" value="{{form.zip}}">
+                  </div>
+                  <div class="input-wrapper">
+                    <label>Phone</label>
+                    <input type="text" name="address[phone]" value="{{form.phone}}">
+                  </div>
+                  <div class="inline-input-wrapper">
+                    {{ form.set_as_default_checkbox }}
+                    <label>Set as Default Address?</label>
+                  </div>
+                  <div class="input-wrapper">
+                    <input type="submit" id="submit-{{form.id}}" value="Save Address"><span>or <a href="#" onclick="Shopify.CustomerAddress.toggleForm({{form.id}}); return false;">cancel</a></span>
+                  </div>
+                {% endform %}
+              </div>
+            </div>
+
+          </div>
+        {% endfor %}
+
+      </div>
+
+    {% else %}
+      <div class="no-addresses rte">
+        <p>You don't have any addresses saved yet. Use the form below to create a new address for your future orders.</p>
+      </div>
+    {% endif %}
+
+    <div class="add-new-address {% if customer.addresses.size == 0 %}active{% endif %}">
+
+      <span class="new-address-toggle">Add new address</span>
+
+        {% form 'customer_address', customer.new_address %}
+          <div class="input-wrapper">
+            <label>First name</label>
+            <input type="text" name="address[first_name]">
+          </div>
+          <div class="input-wrapper">
+            <label>Last name</label>
+            <input type="text" name="address[last_name]">
+          </div>
+          <div class="input-wrapper">
+            <label>Company</label>
+            <input type="text" name="address[company]">
+          </div>
+          <div class="input-wrapper">
+            <label>Address line 1</label>
+            <input type="text" name="address[address1]">
+          </div>
+          <div class="input-wrapper">
+            <label>Address line 2</label>
+            <input type="text" name="address[address2]">
+          </div>
+          <div class="input-wrapper">
+            <label>City</label>
+            <input type="text" name="address[city]">
+          </div>
+          <div class="input-wrapper">
+            <label>Country</label>
+            <div class="select-wrapper">
+              <div class="selected-option">Select a country</div>
+              <select id="address-country" name="address[country]" data-default="{{form.country}}">
+                <option disabled="disabled" selected="selected">Select a country</option>{{ country_option_tags }}</select>
+            </div>
+          </div>
+          <div class="input-wrapper" id="address-province-container" style="display:none">
+            <label>State / Province</label>
+            <div class="select-wrapper">
+              <div class="selected-option">Select a state / province</div>
+              <select id="address-province" name="address[province]" data-default="{{form.province}}"></select>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <label>ZIP / Postal code</label>
+            <input type="text" name="address[zip]">
+          </div>
+          <div class="input-wrapper">
+            <label>Phone</label>
+            <input type="text" name="address[phone]">
+          </div>
+          <div class="inline-input-wrapper">
+            {{ form.set_as_default_checkbox }}
+            <label>Set as Default Address?</label>
+          </div>
+          <div class="input-wrapper">
+            <input type="submit" value="Save Address">
+            {% if customer.addresses.size > 0 %}
+              or <span class="new-address-toggle cancel">cancel</span>
+            {% endif %}
+          </div>
+        {% endform %}
+
+    </div><!-- close ADD NEW ADDRESS -->
+
+  </div><!-- close ACCOUNT CONTENT -->
+
+</div><!-- close ACCOUNT WRAPPER -->
+
+<script type="text/javascript" charset="utf-8">
+
+  // initialize observers on address selectors
+    new Shopify.CountryProvinceSelector('address-country', 'address-province', {hideElement: 'address-province-container'});
+  {% for address in customer.addresses %}
+    new Shopify.CountryProvinceSelector('address-country-{{address.id}}', 'address-province-{{address.id}}', {hideElement: 'address-province-container-{{address.id}}'});
+  {% endfor %}
+
+</script>

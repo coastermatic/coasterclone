@@ -1,0 +1,161 @@
+<div class="page-header">
+  <h1>{{ settings.404-title }}</h1>
+</div>
+
+<div class="page-not-found-message">
+  {{ settings.404-display-message }}
+</div>
+
+{% if settings.404-display-products %}
+
+  {% assign productCount = collections.[settings.featured-products-collection].products.size | times: 1 %}
+  {% assign settingsCount = settings.featured-products-limit | times: 1 %}
+
+  {% if productCount > settingsCount %}
+    {% assign productCount = settings.featured-products-limit %}
+  {% endif %}
+
+  <div class="featured-products product-listing grid-wrap grid-of-{{ productCount }}">
+
+    {% if settings.featured-products-title.size > 0 %}<h4 class="section-title">{{ settings.featured-products-title }}</h4>{% endif %}
+
+    {% if shop.products_count > 0 and collections.[settings.featured-products-collection].title.size == 0 %}
+
+      <p class="load-up">You haven't selected a collection yet! Go to the <a href="{{ shop.url }}/admin/themes">theme settings</a> and select a collection.</p>
+
+    {% elsif shop.products_count > 0 and collections.[settings.featured-products-collection].products.size == 0 %}
+      <!-- ONLY renders when the store has products but the specified collection does NOT have any products -->
+      <p class="load-up">No products in this collection. Go to the <a href="{{ shop.url }}/admin/collections">collections screen</a> and add some products.</p>
+
+    {% elsif shop.products_count == 0 %}
+
+      <div class="load-up">Your store doesn't have any products yet! <a href="{{ shop.url }}/admin/products/new">Add your first product</a> now. </div>
+
+    {% else %}
+
+      <div class="items-wrap">
+      {% for product in collections.[settings.featured-products-collection].products limit: settings.featured-products-limit %}{% include 'product-list-item' %}{% endfor %}
+      </div>
+
+    {% endif %}
+
+  </div>
+
+{% endif %}
+
+
+{% if settings.404-display-collections %}
+
+  {% assign collectionCount = 0 %}
+
+  {% if settings.featured-collection-1.size > 0 %}
+    {% assign collectionCount =  collectionCount | plus: 1 %}
+  {% endif %}
+  {% if settings.featured-collection-2.size > 0 %}
+    {% assign collectionCount =  collectionCount | plus: 1 %}
+  {% endif %}
+  {% if settings.featured-collection-3.size > 0 %}
+    {% assign collectionCount =  collectionCount | plus: 1 %}
+  {% endif %}
+  {% if settings.featured-collection-4.size > 0 %}
+    {% assign collectionCount =  collectionCount | plus: 1 %}
+  {% endif %}
+
+  <div class="featured-collections collection-list grid-wrap grid-of-{{collectionCount}}">
+
+    {% if settings.featured-collections-title.size > 0 %}
+      <h4 class="section-title">{{ settings.featured-collections-title }}</h4>
+    {% endif %}
+
+    {% if settings.featured-collection-1.size > 0 || settings.featured-collection-2.size > 0 || settings.featured-collection-3.size > 0 || settings.featured-collection-4.size > 0 %}
+
+    <div class="items-wrap">
+
+      {% if settings.featured-collection-1.size > 0 %}
+
+        {% if collections[settings.featured-collection-1].image %}
+          {% assign featured-image-1 = collections[settings.featured-collection-1].image.src | collection_img_url: 'grande' %}
+        {% else %}
+          {% assign featured-image-1 = collections[settings.featured-collection-1].products.first.featured_image | product_img_url: 'grande' %}
+        {% endif %}
+
+        <article class="collection-list-item {{ settings.collections-list-position }}">
+          <a href="{{ collections[settings.featured-collection-1].url }}">
+            <img alt="" src="{{ featured-image-1 }}">
+            <h2>{{ collections[settings.featured-collection-1].title }}</h2>
+          </a>
+          {% if settings.display-collection-descriptions and collections[settings.featured-collection-1].description.size > 0 %}
+            <div class="rte">{{ collections[settings.featured-collection-1].description }}</div>
+          {% endif %}
+        </article>
+      {% endif %}
+
+      {% if settings.featured-collection-2.size > 0 %}
+
+        {% if collections[settings.featured-collection-2].image %}
+          {% assign featured-image-2 = collections[settings.featured-collection-2].image.src | collection_img_url: 'grande' %}
+        {% else %}
+          {% assign featured-image-2 = collections[settings.featured-collection-2].products.first.featured_image | product_img_url: 'grande' %}
+        {% endif %}
+
+        <article class="collection-list-item {{ settings.collections-list-position }}">
+          <a href="{{ collections[settings.featured-collection-2].url }}">
+            <img alt="" src="{{ featured-image-2 }}">
+            <h2>{{ collections[settings.featured-collection-2].title }}</h2>
+          </a>
+          {% if settings.display-collection-descriptions and collections[settings.featured-collection-2].description.size > 0 %}
+            <div class="rte">{{ collections[settings.featured-collection-2].description }}</div>
+          {% endif %}
+        </article>
+      {% endif %}
+
+      {% if settings.featured-collection-3.size > 0 %}
+
+        {% if collections[settings.featured-collection-3].image %}
+          {% assign featured-image-3 = collections[settings.featured-collection-3].image.src | collection_img_url: 'grande' %}
+        {% else %}
+          {% assign featured-image-3 = collections[settings.featured-collection-3].products.first.featured_image | product_img_url: 'grande' %}
+        {% endif %}
+
+        <article class="collection-list-item {{ settings.collections-list-position }}">
+          <a href="{{ collections[settings.featured-collection-3].url }}">
+            <img alt="" src="{{ featured-image-3 }}">
+            <h2>{{ collections[settings.featured-collection-3].title }}</h2>
+          </a>
+          {% if settings.display-collection-descriptions and collections[settings.featured-collection-3].description.size > 0 %}
+            <div class="rte">{{ collections[settings.featured-collection-3].description }}</div>
+          {% endif %}
+        </article>
+      {% endif %}
+
+      {% if settings.featured-collection-4.size > 0 %}
+
+        {% if collections[settings.featured-collection-4].image %}
+          {% assign featured-image-4 = collections[settings.featured-collection-4].image.src | collection_img_url: 'grande' %}
+        {% else %}
+          {% assign featured-image-4 = collections[settings.featured-collection-4].products.first.featured_image | product_img_url: 'grande' %}
+        {% endif %}
+
+        <article class="collection-list-item {{ settings.collections-list-position }}">
+          <a href="{{ collections[settings.featured-collection-4].url }}">
+            <img alt="" src="{{ featured-image-4 }}">
+            <h2>{{ collections[settings.featured-collection-4].title }}</h2>
+          </a>
+          {% if settings.display-collection-descriptions and collections[settings.featured-collection-4].description.size > 0 %}
+            <div class="rte">{{ collections[settings.featured-collection-4].description }}</div>
+          {% endif %}
+        </article>
+
+      {% endif %}
+
+    {% else %}
+
+      <div class="load-up">
+        You haven't set this up yet! Go to the <a href="{{ shop.url }}/admin/themes/">theme settings</a> to choose your collections.
+      </div>
+
+    {% endif %}
+    </div>
+  </div>
+
+{% endif %}

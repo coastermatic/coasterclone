@@ -1,0 +1,41 @@
+{% capture userFonts %}{{ settings.body-font }} {{ settings.title-font }} {{ settings.heading-font }} {{ settings.meta-font }}{% endcapture %}
+
+{% if userFonts contains "Lato, sans-serif" %}
+  @import url('//fonts.googleapis.com/css?family=Lato:400italic,700italic,400,700');
+{% endif %}
+
+{% if userFonts contains "Karla, sans-serif" %}
+  @import url('//fonts.googleapis.com/css?family=Karla:400italic,600italic,700italic,400,700,600');
+{% endif %}
+
+{% if userFonts contains "'Open Sans', sans-serif" %}
+  @import url('//fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,700,600');
+{% endif %}
+
+{% if userFonts contains "'Source Sans Pro', sans-serif" %}
+  @import url('//fonts.googleapis.com/css?family=Source+Sans+Pro:400italic,600italic,700italic,400,700,600');
+{% endif %}
+
+{% if userFonts contains "Merriweather, serif" %}
+  @import url('//fonts.googleapis.com/css?family=Merriweather:400italic,600italic,700italic,400,700,600');
+{% endif %}
+
+{% if userFonts contains "'PT Serif', serif" %}
+  @import url('//fonts.googleapis.com/css?family=PT+Serif:400italic,600italic,700italic,400,700,600');
+{% endif %}
+
+{% if userFonts contains "Vollkorn, serif" %}
+  @import url('//fonts.googleapis.com/css?family=Vollkorn:400italic,600italic,700italic,400,700,600');
+{% endif %}
+
+{% if userFonts contains "Lora, serif" %}
+  @import url('//fonts.googleapis.com/css?family=Lora:400italic,700italic,400,700');
+{% endif %}
+
+{% if userFonts contains "Arvo, serif" %}
+  @import url('//fonts.googleapis.com/css?family=Arvo:400italic,600italic,700italic,400,700,600');
+{% endif %}
+
+{% if userFonts contains "'PT Mono', monospace" %}
+  @import url('//fonts.googleapis.com/css?family=PT+Mono:400italic,600italic,700italic,400,700,600');
+{% endif %}

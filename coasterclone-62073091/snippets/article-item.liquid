@@ -1,0 +1,76 @@
+<article class="blog-article">
+
+  {% assign index = false %}
+  {% if template == 'blog' %}{% assign index = true %}{% endif %}
+
+  <header>
+    <h1 class="article-title">
+      {% if index %}<a href="{{ article.url }}">{% endif %}
+        {{ article.title }}
+      {% if index %}</a>{% endif %}
+    </h1>
+  </header>
+
+  <aside class="article-meta meta">
+
+    <span class="date">
+      {% if index %}<a href="{{ article.url }}">{% endif %}
+        {{ article.published_at | date: "%b %d, %Y" }}
+      {% if index %}</a>{% endif %}
+    </span>
+
+    {% if article.tags.size > 0 %}
+    <div class="tags">
+      {% for tag in article.tags %}
+        <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %},&nbsp;{% endunless %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if article.comments_enabled? and article.comments.size > 0 %}
+      <div class="comments-wrap">
+        <a class="comments" href="{{ article.url }}#comments">{{ article.comments_count }} {{ article.comments_count | pluralize: 'comment', 'comments' }}</a>
+      </div>
+    {% endif %}
+
+    {% if blog.next_article or blog.previous_article %}
+    <div class="blog-pagination">
+        {% if blog.previous_article %}<a class="previous" href="{{ blog.previous_article }}">Previous Post</a>{% endif %}
+        {% if blog.next_article and blog.previous_article %}<span class="divider">/</span>{% endif %}
+        {% if blog.next_article %}<a class="next" href="{{ blog.next_article }}">Next Post</a>{% endif %}
+    </div>
+    {% endif %}
+  </aside>
+
+  <div class="rte article-content">
+    {% if settings.blog-use-excerpts and article.excerpt.size > 0 and index %}
+      {{ article.excerpt }}
+    {% elsif settings.blog-use-excerpts and article.excerpt.size < 1 and index %}
+      <p>{{ article.content | strip_html | truncatewords: 50 }}</p>
+      <a href="{{ article.url }}">Continue reading</a>
+    {% else %}
+      {{ article.content }}
+    {% endif %}
+
+    <!-- holiday footer
+    <h4 style="margin-bottom: 0;">Order by Dec 18th, 12PM EST for Christmas Eve delivery (USA). <a href="http://coastermatic.com/"><span style="text-decoration:underline;">Go on,</span> what are you waiting for!</a></h4>
+    <p style="margin-top: 0;"><a href="http://coastermatic.com/blogs/oncoastermatic/16158180-holiday-shipping">More holiday shipping information.</a></p>
+ -->
+
+    {% if settings.display-article-author %}
+    <p class="article-author">
+      Written by
+      {% if article.user.homepage.size > 0 %}<a href="{{ article.user.homepage }}">{% endif %}
+        {{ article.user.name }}
+      {% if article.user.homepage.size > 0 %}</a>{% endif %}
+    </p>
+    {% endif %}
+  </div>
+
+  {% if settings.blog-display-share-buttons %}
+  <footer class="article-footer">
+    {% include 'share-buttons' %}
+  </footer>
+  {% endif %}
+
+</article>

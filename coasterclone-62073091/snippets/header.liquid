@@ -1,0 +1,199 @@
+{% assign borderClass = '' %}
+
+{% if template == 'index' %}
+  {% if settings.show-slideshow or settings.show-mailing-list-banner %}
+    {% assign borderClass = 'no-border' %}
+  {% endif %}
+{% endif %}
+
+{% if settings.header-hide-border %}
+  {% assign borderClass = 'no-border' %}
+{% endif %}
+
+<div class="header-wrapper {{ borderClass }} {% if settings.header-limit-width %}limit-width{% endif %}">
+  <header class="main-header clearfix {% unless shop.customer_accounts_enabled %}accounts-disabled{% endunless %}">
+
+    <!-- Store logo / title
+    =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+    <div class="branding">
+      {% if settings.use-logo %}
+        <h1 class="logo-image"><a href="/">
+          <img class="regular-logo {% if settings.use-retina-logo %}has-retina-logo{% endif %}" alt="{{ shop.name }}'s logo" src="{{ 'logo.png' | asset_url }}">
+
+          {% if settings.use-retina-logo %}
+            <img class="retina-logo" alt="{{ shop.name }}'s retina logo" src="{{ 'logo-retina.png' | asset_url }}">
+          {% endif %}
+        </a></h1>
+      {% else %}
+        <h1 class="title"><a href="/">Coastermatic</a></h1>
+      {% endif %}
+    </div>
+
+    <div class="mobile-nav">
+      <span class="mobile-nav-item mobile-nav-navigate">&#57349;</span>
+      <a href="/cart" class="mobile-nav-item mobile-nav-cart">&#57347;</a>
+    <!--   <a href="/account" class="mobile-nav-item mobile-nav-account">&#57346;</a>
+      <span class="mobile-nav-item mobile-nav-search search-toggle">&#57345;</span>
+      <form class="search-form mobile-search-form" action="/search" method="get">
+        <input class="search-input" name="q" type="text" placeholder="Search" value="">
+      </form> -->
+    </div>
+
+    <!-- Main navigation
+    =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+    <nav class="navigation">
+      <ul>
+        {% for link in linklists.main-menu.links %}{% capture link_handle %}{{ link.title | handle }}{% endcapture %}<li class="{% include 'for-looper' %} {% if linklists[link_handle] and linklists[link_handle].links.size > 0 %}has-dropdown{% endif %}">
+
+          {% assign has-dropdown = false %}
+          {% if linklists[link_handle] and linklists[link_handle].links.size > 0 %} {% assign has-dropdown = true %} {% endif %}
+
+          <a href="{{ link.url }}">{{ link.title }}</a>
+          {% if has-dropdown %}
+
+          <!-- Second Level
+          =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+
+            <ul class="dropdown-list">
+              {% for link in linklists[link_handle].links %}
+
+                {% capture link_handle %}{{ link.title | handle }}{% endcapture %}
+                {% assign has-dropdown = false %}
+                {% if linklists[link_handle] and linklists[link_handle].links.size > 0 %} {% assign has-dropdown = true %} {% endif %}
+
+                <li class="list-item {% if has-dropdown %}has-dropdown{% endif %}">
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+
+
+                  {% if has-dropdown %}
+
+                  <!-- Third Level
+                  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+
+                    <ul class="dropdown-list">
+                      {% for link in linklists[link_handle].links %}
+
+                        {% capture link_handle %}{{ link.title | handle }}{% endcapture %}
+                        {% assign has-dropdown = false %}
+                        {% if linklists[link_handle] and linklists[link_handle].links.size > 0 %} {% assign has-dropdown = true %} {% endif %}
+
+                        <li class="list-item {% if has-dropdown %}has-dropdown{% endif %}">
+                          <a href="{{ link.url }}">{{ link.title }}</a>
+
+                          {% if has-dropdown %}
+
+                          <!-- Fourth Level
+                          =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+
+                            <ul class="dropdown-list">
+                              {% for link in linklists[link_handle].links %}
+                                <li class="list-item">
+                                  <a href="{{ link.url }}">{{ link.title }}</a>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+        </li>{% endfor %}
+      </ul>
+    </nav>
+
+
+    <!-- Action links
+    =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+
+{% if template == 'cart' %}
+<div class="cart-header">
+  <h2>Free Shipping</h2>
+  <p>In the USA.</p>
+ </div>
+{% else %}
+
+    <div class="action-links">
+      <form class="search-form" action="/search" method="get">
+        <input class="search-input" name="q" type="text" placeholder="Search" value="">
+      </form>
+
+      <span class="mini-cart-toggle">Cart ({{ cart.item_count }})
+<!--         {% if cart.item_count > 0 %}
+        <div class="mini-cart-wrapper">
+          <div class="mini-cart">
+
+            {% for item in cart.items %}
+            <div id="item-{{ item.id }}" class="item clearfix">
+              <div class="image-wrap">
+                <a href="{{ item.url }}">
+                  <img src="{{ item | img_url: 'small' }}">
+                </a>
+              </div>
+              <div class="details">
+                <a href="{{ item.url }}">
+                  <p class="title">{{ item.product.title }}</p>
+                  <p class="price">{{ item.line_price | money }}</p>
+
+                  {% if item.variant.option1 != 'Default Title' %}
+                    <ul class="options">
+                    {% for i in (1..item.product.options.size) %}
+                      <li><span>{{ item.product.options[forloop.index0] }}:</span> {{ item.variant.options[forloop.index0] }}</li>
+                    {% endfor %}
+                    </ul>
+                  {% endif %}
+                </a>
+              </div>
+            </div>
+            {% endfor %}
+
+            <div class="checkout">
+              <a class="button" href="/checkout">Checkout</a>
+              or <a href="/cart">view cart</a>
+            </div>
+
+          </div>
+        </div>
+        {% endif %} -->
+      </span>
+
+      <span class="search-toggle">Search</span>
+
+      {% if shop.customer_accounts_enabled %}
+        {% if customer %}
+          <span class="mini-account-toggle">Account
+            <div class="mini-account-wrapper">
+              <div class="mini-account">
+                <p>You are logged in as<br /> <a href="/account">{{ customer.name }}</a></p>
+                <p>{{ "Log out" | customer_logout_link }} or <a href="/account">Go to account</a></p>
+              </div>
+            </div>
+          </span>
+        {% else %}
+          {{ 'Log in' | customer_login_link }}
+        {% endif %}
+      {% endif %}
+    </div>
+     {% endif %}
+
+  </header>
+
+  {% if settings.show-mailing-list-banner and template == 'index' %}
+  <div class="mailing-list-banner">
+    <label class="mailing-list-message">{{ settings.mailing-list-message }}</label>
+    <form action="{{ settings.mailing-list-action-url }}" method="post" name="{% if settings.mailing-list-platform == 'mailchimp' %}mc-embedded-subscribe-form{% endif %}" class="validate" target="_blank">
+      {% if settings.mailing-list-platform == 'mailchimp' %}
+      <input class="email" name="EMAIL" type="email" placeholder="Email address" value="">
+      {% endif %}
+
+      {% if settings.mailing-list-platform == 'campaign-monitor' %}
+      <input id="fieldEmail" class="email" name="{{ settings.campaign-monitor-name }}" type="email" placeholder="Email address" />
+      {% endif %}
+    </form>
+  </div>
+  {% endif %}
+</div>

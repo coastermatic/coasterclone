@@ -1,0 +1,47 @@
+
+
+{% paginate collection.products by settings.products-per-page %}
+
+  <div class="page-header">
+    <h1>{{ collection.title }}</h1>
+
+    {% if settings.display-collection-description and collection.description.size > 0 %}
+      <div class="description rte">
+      {{ collection.description }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="content" role="main">
+
+    {% if collection.all_tags.size > 0 and settings.display-tags-dropdown and collection.handle %}
+      <div class="collection-tags filter rows-of-{{ settings.products-per-row }}">
+        <label>All tags</label>
+        <select class="dropdown">
+          <option value="/collections/{{ collection.handle }}/">All tags</option>
+          {% for tag in collection.all_tags %}
+            {% if current_tags contains tag %}
+              <option value="/collections/{{ collection.handle }}/{{ tag | handle }}" selected>{{ tag }}</option>
+            {% else %}
+              <option value="/collections/{{ collection.handle }}/{{ tag | handle }}">{{ tag }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+    {% endif %}
+
+    <div class="product-listing rows-of-{{ settings.products-per-row }}">
+      {% for product in collection.products %}
+        {% include 'product-list-item' %}
+      {% else %}
+        <span class="empty">This collection is empty!</span>
+      {% endfor %}
+    </div>
+
+    {% if paginate.previous or paginate.next %}
+      {% include 'pagination' %}
+    {% endif %}
+
+  </div>
+
+{% endpaginate %}

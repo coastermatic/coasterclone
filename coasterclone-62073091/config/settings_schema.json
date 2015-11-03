@@ -1,0 +1,2006 @@
+[
+  {
+    "name": "Welcome",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Cypress Theme by [Pixel Union](http:\/\/www.pixelunion.net) | version 4.11.0"
+      },
+      {
+        "type": "paragraph",
+        "content": "If you require any support please review the [documentation](http:\/\/cypress-theme-minimal.myshopify.com\/pages\/documentation) or contact us at [support@pixelunion.net](mailto:support@pixelunion.net)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Find us on the web: [Pixel Union](http:\/\/www.pixelunion.net) | Twitter: [@pixelunion](http:\/\/twitter.com\/pixelunion) | Facebook: [http:\/\/facebook.com\/pixelunion](http:\/\/facebook.com\/pixelunion)"
+      }
+    ]
+  },
+  {
+    "name": "General",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Logo Options"
+      },
+      {
+        "type": "checkbox",
+        "id": "use-logo",
+        "label": "Use custom logo?"
+      },
+      {
+        "type": "image",
+        "id": "logo.png",
+        "label": "Custom logo",
+        "max-width": 300,
+        "max-height": 200
+      },
+      {
+        "type": "checkbox",
+        "id": "use-retina-logo",
+        "label": "Use retina logo?"
+      },
+      {
+        "type": "image",
+        "id": "logo-retina.png",
+        "label": "Custom logo (retina)",
+        "max-width": 600,
+        "max-height": 400
+      },
+      {
+        "type": "text",
+        "id": "logo-height",
+        "label": "Logo height (in pixels)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Maximum logo dimensions are 300px wide by 200px high. Your uploaded file will be resized to fit within those constraints. Retina logos are displayed on devices that have a higher than normal pixel density. Using this option will ensure that your logo looks great on all devices (e.g., iPad with retina display). Retina logos should be uploaded at exactly double the dimensions of your regular logo. So if your regular logo is 140x80 then your retina logo would be 280x160. Important: If using a retina logo, the 'logo height' field is required. Enter the height of your regular logo."
+      },
+      {
+        "type": "header",
+        "content": "Font options"
+      },
+      {
+        "type": "select",
+        "id": "body-font",
+        "label": "Body font",
+        "options": [
+          {
+            "value": "'freight-sans-pro', sans-serif",
+            "label": "Freight (Typekit)",
+            "group": "Typekit"
+          },
+          {
+            "value": "Lato, sans-serif",
+            "label": "Lato",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "Karla, sans-serif",
+            "label": "Karla",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Open Sans', sans-serif",
+            "label": "Open Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Source Sans Pro', sans-serif",
+            "label": "Source Sans Pro",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            "label": "Helvetica \/ Arial",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "Merriweather, serif",
+            "label": "Merriweather",
+            "group": "Serif"
+          },
+          {
+            "value": "'PT Serif', serif",
+            "label": "PT Serif",
+            "group": "Serif"
+          },
+          {
+            "value": "Vollkorn, serif",
+            "label": "Vollkorn",
+            "group": "Serif"
+          },
+          {
+            "value": "Lora, serif",
+            "label": "Lora",
+            "group": "Serif"
+          },
+          {
+            "value": "Garamond, Baskerville, 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif",
+            "label": "Garamond",
+            "group": "Serif"
+          },
+          {
+            "value": "Georgia, Utopia, 'Times New Roman', Times, serif",
+            "label": "Georgia",
+            "group": "Serif"
+          },
+          {
+            "value": "Arvo, serif",
+            "label": "Arvo",
+            "group": "Slab-serif"
+          },
+          {
+            "value": "'PT Mono', monospace",
+            "label": "PT Mono",
+            "group": "Monospace"
+          },
+          {
+            "value": "'Courier New', Courier, monospace",
+            "label": "Courier New",
+            "group": "Monospace"
+          }
+        ],
+        "default": "Lato, sans-serif"
+      },
+      {
+        "type": "select",
+        "id": "logo-font",
+        "label": "Logo font",
+        "options": [
+          {
+            "value": "'freight-sans-pro', sans-serif",
+            "label": "Freight Sans Pro",
+            "group": "Typekit"
+          },
+          {
+            "value": "Lato, sans-serif",
+            "label": "Lato",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "Karla, sans-serif",
+            "label": "Karla",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Open Sans', sans-serif",
+            "label": "Open Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Source Sans Pro', sans-serif",
+            "label": "Source Sans Pro",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            "label": "Helvetica \/ Arial",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "Merriweather, serif",
+            "label": "Merriweather",
+            "group": "Serif"
+          },
+          {
+            "value": "'PT Serif', serif",
+            "label": "PT Serif",
+            "group": "Serif"
+          },
+          {
+            "value": "Vollkorn, serif",
+            "label": "Vollkorn",
+            "group": "Serif"
+          },
+          {
+            "value": "Lora, serif",
+            "label": "Lora",
+            "group": "Serif"
+          },
+          {
+            "value": "Garamond, Baskerville, 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif",
+            "label": "Garamond",
+            "group": "Serif"
+          },
+          {
+            "value": "Georgia, Utopia, 'Times New Roman', Times, serif",
+            "label": "Georgia",
+            "group": "Serif"
+          },
+          {
+            "value": "Arvo, serif",
+            "label": "Arvo",
+            "group": "Slab-serif"
+          },
+          {
+            "value": "'PT Mono', monospace",
+            "label": "PT Mono",
+            "group": "Monospace"
+          },
+          {
+            "value": "'Courier New', Courier, monospace",
+            "label": "Courier New",
+            "group": "Monospace"
+          }
+        ],
+        "default": "Lato, sans-serif"
+      },
+      {
+        "type": "select",
+        "id": "logo-font-weight",
+        "label": "Logo font weight",
+        "options": [
+          {
+            "value": "400",
+            "label": "Normal"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "logo-font-small-caps",
+        "label": "Logo font small caps"
+      },
+      {
+        "type": "select",
+        "id": "title-font",
+        "label": "Page title font",
+        "options": [
+          {
+            "value": "'freight-sans-pro', sans-serif",
+            "label": "Freight Sans Pro",
+            "group": "Typekit"
+          },
+          {
+            "value": "Lato, sans-serif",
+            "label": "Lato",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "Karla, sans-serif",
+            "label": "Karla",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Open Sans', sans-serif",
+            "label": "Open Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Source Sans Pro', sans-serif",
+            "label": "Source Sans Pro",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            "label": "Helvetica \/ Arial",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "Merriweather, serif",
+            "label": "Merriweather",
+            "group": "Serif"
+          },
+          {
+            "value": "'PT Serif', serif",
+            "label": "PT Serif",
+            "group": "Serif"
+          },
+          {
+            "value": "Vollkorn, serif",
+            "label": "Vollkorn",
+            "group": "Serif"
+          },
+          {
+            "value": "Lora, serif",
+            "label": "Lora",
+            "group": "Serif"
+          },
+          {
+            "value": "Garamond, Baskerville, 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif",
+            "label": "Garamond",
+            "group": "Serif"
+          },
+          {
+            "value": "Georgia, Utopia, 'Times New Roman', Times, serif",
+            "label": "Georgia",
+            "group": "Serif"
+          },
+          {
+            "value": "Arvo, serif",
+            "label": "Arvo",
+            "group": "Slab-serif"
+          },
+          {
+            "value": "'PT Mono', monospace",
+            "label": "PT Mono",
+            "group": "Monospace"
+          },
+          {
+            "value": "'Courier New', Courier, monospace",
+            "label": "Courier New",
+            "group": "Monospace"
+          }
+        ],
+        "default": "Lato, sans-serif"
+      },
+      {
+        "type": "select",
+        "id": "title-font-weight",
+        "label": "Page title font weight",
+        "options": [
+          {
+            "value": "400",
+            "label": "Normal"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "title-font-small-caps",
+        "label": "Page title font small caps"
+      },
+      {
+        "type": "select",
+        "id": "heading-font",
+        "label": "Section title font (home page)",
+        "options": [
+          {
+            "value": "'freight-sans-pro', sans-serif",
+            "label": "Freight Sans Pro",
+            "group": "Typekit"
+          },
+          {
+            "value": "Lato, sans-serif",
+            "label": "Lato",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "Karla, sans-serif",
+            "label": "Karla",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Open Sans', sans-serif",
+            "label": "Open Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Source Sans Pro', sans-serif",
+            "label": "Source Sans Pro",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            "label": "Helvetica \/ Arial",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "Merriweather, serif",
+            "label": "Merriweather",
+            "group": "Serif"
+          },
+          {
+            "value": "'PT Serif', serif",
+            "label": "PT Serif",
+            "group": "Serif"
+          },
+          {
+            "value": "Vollkorn, serif",
+            "label": "Vollkorn",
+            "group": "Serif"
+          },
+          {
+            "value": "Lora, serif",
+            "label": "Lora",
+            "group": "Serif"
+          },
+          {
+            "value": "Garamond, Baskerville, 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif",
+            "label": "Garamond",
+            "group": "Serif"
+          },
+          {
+            "value": "Georgia, Utopia, 'Times New Roman', Times, serif",
+            "label": "Georgia",
+            "group": "Serif"
+          },
+          {
+            "value": "Arvo, serif",
+            "label": "Arvo",
+            "group": "Slab-serif"
+          },
+          {
+            "value": "'PT Mono', monospace",
+            "label": "PT Mono",
+            "group": "Monospace"
+          },
+          {
+            "value": "'Courier New', Courier, monospace",
+            "label": "Courier New",
+            "group": "Monospace"
+          }
+        ],
+        "default": "Lato, sans-serif"
+      },
+      {
+        "type": "select",
+        "id": "heading-font-weight",
+        "label": "Section title font weight",
+        "options": [
+          {
+            "value": "400",
+            "label": "Normal"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "heading-font-small-caps",
+        "label": "Section title font small caps"
+      },
+      {
+        "type": "select",
+        "id": "meta-font",
+        "label": "Meta font",
+        "options": [
+          {
+            "value": "'freight-sans-pro', sans-serif",
+            "label": "Freight Sans Pro",
+            "group": "Typekit"
+          },
+          {
+            "value": "Lato, sans-serif",
+            "label": "Lato",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "Karla, sans-serif",
+            "label": "Karla",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Open Sans', sans-serif",
+            "label": "Open Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Source Sans Pro', sans-serif",
+            "label": "Source Sans Pro",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            "label": "Helvetica \/ Arial",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "Merriweather, serif",
+            "label": "Merriweather",
+            "group": "Serif"
+          },
+          {
+            "value": "'PT Serif', serif",
+            "label": "PT Serif",
+            "group": "Serif"
+          },
+          {
+            "value": "Vollkorn, serif",
+            "label": "Vollkorn",
+            "group": "Serif"
+          },
+          {
+            "value": "Lora, serif",
+            "label": "Lora",
+            "group": "Serif"
+          },
+          {
+            "value": "Garamond, Baskerville, 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif",
+            "label": "Garamond",
+            "group": "Serif"
+          },
+          {
+            "value": "Georgia, Utopia, 'Times New Roman', Times, serif",
+            "label": "Georgia",
+            "group": "Serif"
+          },
+          {
+            "value": "Arvo, serif",
+            "label": "Arvo",
+            "group": "Slab-serif"
+          },
+          {
+            "value": "'PT Mono', monospace",
+            "label": "PT Mono",
+            "group": "Monospace"
+          },
+          {
+            "value": "'Courier New', Courier, monospace",
+            "label": "Courier New",
+            "group": "Monospace"
+          }
+        ],
+        "default": "Lato, sans-serif"
+      },
+      {
+        "type": "select",
+        "id": "meta-font-weight",
+        "label": "Meta font weight",
+        "options": [
+          {
+            "value": "400",
+            "label": "Normal"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "meta-font-small-caps",
+        "label": "Meta font small caps"
+      },
+      {
+        "type": "header",
+        "content": "Global color options"
+      },
+      {
+        "type": "color",
+        "id": "background-color",
+        "label": "Body background color"
+      },
+      {
+        "type": "color",
+        "id": "body-text-color",
+        "label": "Body text color"
+      },
+      {
+        "type": "color",
+        "id": "link-color",
+        "label": "Link color"
+      },
+      {
+        "type": "color",
+        "id": "link-hover-color",
+        "label": "Link hover color"
+      },
+      {
+        "type": "color",
+        "id": "heading-color",
+        "label": "Heading color"
+      },
+      {
+        "type": "color",
+        "id": "section-title-color",
+        "label": "Section title color (home page)"
+      },
+      {
+        "type": "color",
+        "id": "light-color",
+        "label": "Light color"
+      },
+      {
+        "type": "color",
+        "id": "meta-color",
+        "label": "Meta font color"
+      },
+      {
+        "type": "color",
+        "id": "primary-border-color",
+        "label": "Main border color"
+      },
+      {
+        "type": "color",
+        "id": "table-border-color",
+        "label": "Table border color"
+      },
+      {
+        "type": "color",
+        "id": "table-header-background",
+        "label": "Table header background"
+      },
+      {
+        "type": "color",
+        "id": "table-header-color",
+        "label": "Table header text color"
+      },
+      {
+        "type": "color",
+        "id": "table-body-background",
+        "label": "Table body background"
+      },
+      {
+        "type": "color",
+        "id": "table-body-color",
+        "label": "Table body text color"
+      },
+      {
+        "type": "color",
+        "id": "input-border-color",
+        "label": "Text input border color (forms)"
+      },
+      {
+        "type": "color",
+        "id": "primary-background",
+        "label": "Primary button background"
+      },
+      {
+        "type": "color",
+        "id": "primary-background-hover",
+        "label": "Primary button hover background"
+      },
+      {
+        "type": "color",
+        "id": "primary-color",
+        "label": "Primary button text"
+      },
+      {
+        "type": "color",
+        "id": "primary-color-hover",
+        "label": "Primary button hover text"
+      },
+      {
+        "type": "color",
+        "id": "secondary-background",
+        "label": "Secondary button background"
+      },
+      {
+        "type": "color",
+        "id": "secondary-background-hover",
+        "label": "Secondary button hover background"
+      },
+      {
+        "type": "color",
+        "id": "secondary-color",
+        "label": "Secondary button text"
+      },
+      {
+        "type": "color",
+        "id": "secondary-color-hover",
+        "label": "Secondary button hover text"
+      },
+      {
+        "type": "color",
+        "id": "select-background",
+        "label": "Select background"
+      },
+      {
+        "type": "color",
+        "id": "error-color",
+        "label": "Error text color"
+      },
+      {
+        "type": "color",
+        "id": "success-color",
+        "label": "Success text color"
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "color",
+        "id": "header-background",
+        "label": "Header background"
+      },
+      {
+        "type": "checkbox",
+        "id": "header-hide-border",
+        "label": "Remove border"
+      },
+      {
+        "type": "paragraph",
+        "content": "It's recommended to remove the border if the header background colour does not match the main background colour."
+      },
+      {
+        "type": "checkbox",
+        "id": "header-limit-width",
+        "label": "Match width to content"
+      },
+      {
+        "type": "color",
+        "id": "title-color",
+        "label": "Title color"
+      },
+      {
+        "type": "color",
+        "id": "navigation-link-color",
+        "label": "Navigation link color"
+      },
+      {
+        "type": "color",
+        "id": "navigation-link-hover-color",
+        "label": "Navigation link hover color"
+      },
+      {
+        "type": "color",
+        "id": "navigation-dropdown-link-color",
+        "label": "Navigation dropdown link color"
+      },
+      {
+        "type": "color",
+        "id": "navigation-dropdown-link-hover-color",
+        "label": "Navigation dropdown link hover color"
+      },
+      {
+        "type": "color",
+        "id": "navigation-border-color",
+        "label": "Navigation border color"
+      },
+      {
+        "type": "color",
+        "id": "action-links-background",
+        "label": "Action links background"
+      },
+      {
+        "type": "color",
+        "id": "action-links-color",
+        "label": "Action links color"
+      },
+      {
+        "type": "color",
+        "id": "action-links-hover-color",
+        "label": "Action links hover color"
+      }
+    ]
+  },
+  {
+    "name": "Home page: featurettes",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Welcome Message"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-welcome-message",
+        "label": "Display welcome message"
+      },
+      {
+        "type": "text",
+        "id": "welcome-title",
+        "label": "Welcome message title"
+      },
+      {
+        "type": "textarea",
+        "id": "welcome-text",
+        "label": "Welcome message text"
+      },
+      {
+        "type": "header",
+        "content": "Featured collections"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-featured-collections",
+        "label": "Display featured collections"
+      },
+      {
+        "type": "text",
+        "id": "featured-collections-title",
+        "label": "Featured collections title"
+      },
+      {
+        "type": "collection",
+        "id": "featured-collection-1",
+        "label": "Collection #1"
+      },
+      {
+        "type": "collection",
+        "id": "featured-collection-2",
+        "label": "Collection #2"
+      },
+      {
+        "type": "collection",
+        "id": "featured-collection-3",
+        "label": "Collection #3"
+      },
+      {
+        "type": "collection",
+        "id": "featured-collection-4",
+        "label": "Collection #4"
+      },
+      {
+        "type": "paragraph",
+        "content": "Note: to change colors and styles see the 'Collections listing page' settings below."
+      },
+      {
+        "type": "header",
+        "content": "Featured products"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-featured-products",
+        "label": "Display featured products"
+      },
+      {
+        "type": "text",
+        "id": "featured-products-title",
+        "label": "Featured products title"
+      },
+      {
+        "type": "collection",
+        "id": "featured-products-collection",
+        "label": "Use products from:"
+      },
+      {
+        "type": "select",
+        "id": "featured-products-limit",
+        "label": "Number of products to show",
+        "options": [
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Recent Posts"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-recent-posts",
+        "label": "Display recent posts"
+      },
+      {
+        "type": "text",
+        "id": "recent-posts-title",
+        "label": "Recent posts title"
+      },
+      {
+        "type": "blog",
+        "id": "recent-posts-blog",
+        "label": "Select a blog"
+      },
+      {
+        "type": "select",
+        "id": "number-of-posts",
+        "label": "Number of posts to show",
+        "options": [
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Instagram Widget"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-instagram-widget",
+        "label": "Display Instagram widget"
+      },
+      {
+        "type": "text",
+        "id": "instagram-widget-title",
+        "label": "Instagram widget title"
+      },
+      {
+        "type": "text",
+        "id": "instagram-widget-access-token",
+        "label": "Access token ([?](http:\/\/instagram.pixelunion.net))"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-instagram-tag",
+        "label": "Display images with specific tag"
+      },
+      {
+        "type": "text",
+        "id": "instagram-widget-tag",
+        "label": "Tag"
+      },
+      {
+        "type": "header",
+        "content": "Twitter Widget"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-twitter-widget",
+        "label": "Display Twitter widget"
+      },
+      {
+        "type": "text",
+        "id": "twitter-title",
+        "label": "Widget title"
+      },
+      {
+        "type": "text",
+        "id": "twitter-id",
+        "label": "Widget ID ([?](http:\/\/help.pixelunion.net\/customer\/portal\/articles\/1693418-how-do-i-find-my-twitter-widget-id-))"
+      },
+      {
+        "type": "checkbox",
+        "id": "twitter-retweets",
+        "label": "Display Retweets"
+      }
+    ]
+  },
+  {
+    "name": "Home page: slideshow",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show-slideshow",
+        "label": "Display slideshow"
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow-alternate-style",
+        "label": "Use alternate style"
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow-content-width",
+        "label": "Match width to content"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slideshow-navigation",
+        "label": "Display slideshow navigation"
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow-auto-play",
+        "label": "Auto play slides"
+      },
+      {
+        "type": "text",
+        "id": "slideshow-duration",
+        "label": "Slide duration (in seconds)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Notes: If you select the 'Alternate layout' only the 'Title' and 'Call to action' fields will be used."
+      },
+      {
+        "type": "paragraph",
+        "content": "Note: The recommended dimensions for slideshow images is 1280px wide by 640px tall."
+      },
+      {
+        "type": "header",
+        "content": "Slide 1"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slide-1",
+        "label": "Display slide"
+      },
+      {
+        "type": "checkbox",
+        "id": "invert-controls-slide-1",
+        "label": "Invert controls"
+      },
+      {
+        "type": "image",
+        "id": "slide-image-1.jpg",
+        "label": "Slide image",
+        "max-width": 9999,
+        "max-height": 9999
+      },
+      {
+        "type": "text",
+        "id": "slide-url-1",
+        "label": "URL"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slide-text-1",
+        "label": "Display slide text"
+      },
+      {
+        "type": "select",
+        "id": "slide-position-1",
+        "label": "Position slide text",
+        "options": [
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "slide-title-1",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "slide-tagline-1",
+        "label": "Tagline"
+      },
+      {
+        "type": "text",
+        "id": "slide-cta-1",
+        "label": "Call to action"
+      },
+      {
+        "type": "color",
+        "id": "slide-cta-background-1",
+        "label": "Call to action background color"
+      },
+      {
+        "type": "header",
+        "content": "Slide 2"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slide-2",
+        "label": "Display slide"
+      },
+      {
+        "type": "checkbox",
+        "id": "invert-controls-slide-2",
+        "label": "Invert controls"
+      },
+      {
+        "type": "image",
+        "id": "slide-image-2.jpg",
+        "label": "Slide image",
+        "max-width": 9999,
+        "max-height": 9999
+      },
+      {
+        "type": "text",
+        "id": "slide-url-2",
+        "label": "URL"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slide-text-2",
+        "label": "Display slide text"
+      },
+      {
+        "type": "select",
+        "id": "slide-position-2",
+        "label": "Position slide text",
+        "options": [
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "slide-title-2",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "slide-tagline-2",
+        "label": "Tagline"
+      },
+      {
+        "type": "text",
+        "id": "slide-cta-2",
+        "label": "Call to action"
+      },
+      {
+        "type": "color",
+        "id": "slide-cta-background-2",
+        "label": "Call to action background color"
+      },
+      {
+        "type": "header",
+        "content": "Slide 3"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slide-3",
+        "label": "Display slide"
+      },
+      {
+        "type": "checkbox",
+        "id": "invert-controls-slide-3",
+        "label": "Invert controls"
+      },
+      {
+        "type": "image",
+        "id": "slide-image-3.jpg",
+        "label": "Slide image",
+        "max-width": 9999,
+        "max-height": 9999
+      },
+      {
+        "type": "text",
+        "id": "slide-url-3",
+        "label": "URL"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slide-text-3",
+        "label": "Display slide text"
+      },
+      {
+        "type": "select",
+        "id": "slide-position-3",
+        "label": "Position slide text",
+        "options": [
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "slide-title-3",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "slide-tagline-3",
+        "label": "Tagline"
+      },
+      {
+        "type": "text",
+        "id": "slide-cta-3",
+        "label": "Call to action"
+      },
+      {
+        "type": "color",
+        "id": "slide-cta-background-3",
+        "label": "Call to action background color"
+      },
+      {
+        "type": "header",
+        "content": "Slide 4"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slide-4",
+        "label": "Display slide"
+      },
+      {
+        "type": "checkbox",
+        "id": "invert-controls-slide-4",
+        "label": "Invert controls"
+      },
+      {
+        "type": "image",
+        "id": "slide-image-4.jpg",
+        "label": "Slide image",
+        "max-width": 9999,
+        "max-height": 9999
+      },
+      {
+        "type": "text",
+        "id": "slide-url-4",
+        "label": "URL"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slide-text-4",
+        "label": "Display slide text"
+      },
+      {
+        "type": "select",
+        "id": "slide-position-4",
+        "label": "Position slide text",
+        "options": [
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "slide-title-4",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "slide-tagline-4",
+        "label": "Tagline"
+      },
+      {
+        "type": "text",
+        "id": "slide-cta-4",
+        "label": "Call to action"
+      },
+      {
+        "type": "color",
+        "id": "slide-cta-background-4",
+        "label": "Call to action background color"
+      },
+      {
+        "type": "header",
+        "content": "Slide 5"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slide-5",
+        "label": "Display slide"
+      },
+      {
+        "type": "checkbox",
+        "id": "invert-controls-slide-5",
+        "label": "Invert controls"
+      },
+      {
+        "type": "image",
+        "id": "slide-image-5.jpg",
+        "label": "Slide image",
+        "max-width": 9999,
+        "max-height": 9999
+      },
+      {
+        "type": "text",
+        "id": "slide-url-5",
+        "label": "URL"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-slide-text-5",
+        "label": "Display slide text"
+      },
+      {
+        "type": "select",
+        "id": "slide-position-5",
+        "label": "Position slide text",
+        "options": [
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "slide-title-5",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "slide-tagline-5",
+        "label": "Tagline"
+      },
+      {
+        "type": "text",
+        "id": "slide-cta-5",
+        "label": "Call to action"
+      },
+      {
+        "type": "color",
+        "id": "slide-cta-background-5",
+        "label": "Call to action background color"
+      }
+    ]
+  },
+  {
+    "name": "Collections listing page",
+    "settings": [
+      {
+        "type": "select",
+        "id": "collections-list-position",
+        "label": "Title position",
+        "options": [
+          {
+            "value": "centered",
+            "label": "Centered"
+          },
+          {
+            "value": "offset-bottom",
+            "label": "Offset Bottom"
+          },
+          {
+            "value": "below",
+            "label": "Below"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "collection-name-background",
+        "label": "Collection name background"
+      },
+      {
+        "type": "color",
+        "id": "collection-name-color",
+        "label": "Collection name text color"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-collection-descriptions",
+        "label": "Display collection descriptions"
+      },
+      {
+        "type": "link_list",
+        "id": "collection-listing-linklist",
+        "label": "Use a specific link list"
+      },
+      {
+        "type": "paragraph",
+        "content": "By enabling this option, you may define specific collections to display on this page instead of listing all of them. By creating a link list and populating it with collection handles you can provide the user a curated experience when they navigate to the Collections page."
+      }
+    ]
+  },
+  {
+    "name": "Collection page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "display-collection-description",
+        "label": "Display description"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-tags-dropdown",
+        "label": "Display tags dropdown filter"
+      },
+      {
+        "type": "select",
+        "id": "products-per-row",
+        "label": "Number of products per row",
+        "options": [
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "products-per-page",
+        "label": "Products per page",
+        "options": [
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "6",
+            "label": "6"
+          },
+          {
+            "value": "8",
+            "label": "8"
+          },
+          {
+            "value": "9",
+            "label": "9"
+          },
+          {
+            "value": "12",
+            "label": "12"
+          },
+          {
+            "value": "15",
+            "label": "15"
+          },
+          {
+            "value": "16",
+            "label": "16"
+          },
+          {
+            "value": "18",
+            "label": "18"
+          },
+          {
+            "value": "20",
+            "label": "20"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Product page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "product-enable-zoom",
+        "label": "Enable product zooming"
+      },
+      {
+        "type": "checkbox",
+        "id": "product-display-share-buttons",
+        "label": "Display share buttons"
+      },
+      {
+        "type": "checkbox",
+        "id": "product-display-share-count",
+        "label": "Display share count"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-fitting-guide-link",
+        "label": "Display fitting guide link"
+      },
+      {
+        "type": "page",
+        "id": "fitting-guide-link",
+        "label": "Fitting guide link"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-ask-us-link",
+        "label": "Display 'Ask us' link"
+      },
+      {
+        "type": "page",
+        "id": "ask-us-link",
+        "label": "'Ask us' link"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-related-products",
+        "label": "Display related products"
+      }
+    ]
+  },
+  {
+    "name": "Blog \/ article page",
+    "settings": [
+      {
+        "type": "select",
+        "id": "articles-per-page",
+        "label": "Number of articles to display per page",
+        "options": [
+          {
+            "value": "5",
+            "label": "5"
+          },
+          {
+            "value": "10",
+            "label": "10"
+          },
+          {
+            "value": "15",
+            "label": "15"
+          },
+          {
+            "value": "20",
+            "label": "20"
+          },
+          {
+            "value": "25",
+            "label": "25"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "blog-use-excerpts",
+        "label": "Use excerpts"
+      },
+      {
+        "type": "paragraph",
+        "content": "Use excerpts to provide a shortened version of your article to your customers. We recommend starting your excerpt with an image (uploaded at 800px wide) and then a short paragraph summarizing the article. Note: this option toggles excerpts on the blog page only."
+      },
+      {
+        "type": "checkbox",
+        "id": "display-article-author",
+        "label": "Display article author"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog-display-share-buttons",
+        "label": "Display share buttons"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog-display-share-count",
+        "label": "Display share count"
+      }
+    ]
+  },
+  {
+    "name": "Cart page",
+    "settings": [
+      {
+        "type": "text",
+        "id": "cart-page-title",
+        "label": "Cart page title"
+      },
+      {
+        "type": "text",
+        "id": "cart-special-instructions",
+        "label": "Special instructions placeholder"
+      },
+      {
+        "type": "header",
+        "content": "Shipping Rates Calculator"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-shipping-calculator",
+        "label": "Display shipping calculator"
+      },
+      {
+        "type": "text",
+        "id": "shipping-calculator-heading",
+        "label": "Heading text"
+      },
+      {
+        "type": "text",
+        "id": "shipping_calculator_default_country",
+        "label": "Default country selection",
+        "default": "United States"
+      },
+      {
+        "type": "paragraph",
+        "content": "If your customer is logged-in, the country in their default shipping address will be selected."
+      },
+      {
+        "type": "text",
+        "id": "shipping_calculator_submit_button_label",
+        "label": "Submit button label",
+        "default": "Calculate shipping"
+      },
+      {
+        "type": "text",
+        "id": "shipping_calculator_submit_button_label_disabled",
+        "label": "Submit button label when calculating",
+        "default": "Calculating..."
+      }
+    ]
+  },
+  {
+    "name": "Page with contact form",
+    "settings": [
+      {
+        "type": "text",
+        "id": "contact-label-name",
+        "label": "Name label"
+      },
+      {
+        "type": "text",
+        "id": "contact-label-message",
+        "label": "Message label"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-contact-select",
+        "label": "Display select dropdown"
+      },
+      {
+        "type": "paragraph",
+        "content": "To receive additional information from your customers, you may enable a simple dropdown that users can select from to provide you with more information. Simply fill out the label, default text and at least two options to select from."
+      },
+      {
+        "type": "text",
+        "id": "contact-label-select",
+        "label": "Select dropdown label"
+      },
+      {
+        "type": "text",
+        "id": "contact-default-select",
+        "label": "Select dropdown default text"
+      },
+      {
+        "type": "text",
+        "id": "contact-select-option-1",
+        "label": "Option 1 label"
+      },
+      {
+        "type": "text",
+        "id": "contact-select-option-2",
+        "label": "Option 2 label"
+      },
+      {
+        "type": "text",
+        "id": "contact-select-option-3",
+        "label": "Option 3 label"
+      },
+      {
+        "type": "text",
+        "id": "contact-select-option-4",
+        "label": "Option 4 label"
+      },
+      {
+        "type": "text",
+        "id": "contact-select-option-5",
+        "label": "Option 5 label"
+      },
+      {
+        "type": "text",
+        "id": "contact-success-message",
+        "label": "Success message"
+      },
+      {
+        "type": "text",
+        "id": "contact-error-message",
+        "label": "Error message"
+      }
+    ]
+  },
+  {
+    "name": "404 Page",
+    "settings": [
+      {
+        "type": "text",
+        "id": "404-title",
+        "label": "Title"
+      },
+      {
+        "type": "textarea",
+        "id": "404-display-message",
+        "label": "'Page not found' message"
+      },
+      {
+        "type": "checkbox",
+        "id": "404-display-products",
+        "label": "Display featured products"
+      },
+      {
+        "type": "checkbox",
+        "id": "404-display-collections",
+        "label": "Display featured collections"
+      },
+      {
+        "type": "paragraph",
+        "content": "Featured products and collections will not display on the 404 page until the options have been selected in the 'Home page' settings above."
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "footer-background",
+        "label": "Background color"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer-no-border",
+        "label": "Remove border"
+      },
+      {
+        "type": "paragraph",
+        "content": "It's recommended to remove the border if the footer background colour does not match the main background colour."
+      },
+      {
+        "type": "color",
+        "id": "footer-color",
+        "label": "Text color"
+      },
+      {
+        "type": "color",
+        "id": "footer-link-color",
+        "label": "Link color"
+      },
+      {
+        "type": "color",
+        "id": "footer-link-hover-color",
+        "label": "Link hover color"
+      },
+      {
+        "type": "color",
+        "id": "social-icons-color",
+        "label": "Social icons and mailing list submit color"
+      },
+      {
+        "type": "color",
+        "id": "social-icons-hover-color",
+        "label": "Social icons and mailing list submit hover color"
+      },
+      {
+        "type": "color",
+        "id": "mailing-list-input-border",
+        "label": "Mailing list email border color"
+      },
+      {
+        "type": "paragraph",
+        "content": "A footer link list is standard to the Shopify platform. To add\/remove\/modify the links, simply go to the Navigation tab and edit the 'Footer' link list."
+      },
+      {
+        "type": "header",
+        "content": "Contact information"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-contact-module",
+        "label": "Display contact module"
+      },
+      {
+        "type": "text",
+        "id": "address-line-1",
+        "label": "Address line 1"
+      },
+      {
+        "type": "text",
+        "id": "address-line-2",
+        "label": "Address line 2"
+      },
+      {
+        "type": "text",
+        "id": "address-city",
+        "label": "City"
+      },
+      {
+        "type": "text",
+        "id": "address-province-state",
+        "label": "Province \/ State"
+      },
+      {
+        "type": "text",
+        "id": "address-postal-zip",
+        "label": "Postal \/ Zip code"
+      },
+      {
+        "type": "text",
+        "id": "address-country",
+        "label": "Country"
+      },
+      {
+        "type": "text",
+        "id": "shop-phone-number",
+        "label": "Phone number"
+      },
+      {
+        "type": "text",
+        "id": "contact-email",
+        "label": "Email address"
+      },
+      {
+        "type": "header",
+        "content": "Social links & mailing list"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-social-module",
+        "label": "Display social module"
+      },
+      {
+        "type": "text",
+        "id": "social-title",
+        "label": "Section title"
+      },
+      {
+        "type": "text",
+        "id": "twitter-url",
+        "label": "Twitter URL"
+      },
+      {
+        "type": "text",
+        "id": "facebook-url",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "text",
+        "id": "pinterest-url",
+        "label": "Pinterest URL"
+      },
+      {
+        "type": "text",
+        "id": "instagram-url",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "gplus-url",
+        "label": "Google+ URL"
+      },
+      {
+        "type": "text",
+        "id": "fancy-url",
+        "label": "Fancy URL"
+      },
+      {
+        "type": "text",
+        "id": "rss-blog-name",
+        "label": "Shopify blog handle (RSS)"
+      },
+      {
+        "type": "checkbox",
+        "id": "display-mailing-list",
+        "label": "Display mailing list signup"
+      },
+      {
+        "type": "select",
+        "id": "mailing-list-platform",
+        "label": "Select a platform",
+        "options": [
+          {
+            "value": "mailchimp",
+            "label": "MailChimp"
+          },
+          {
+            "value": "campaign-monitor",
+            "label": "Campaign Monitor"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "mailing-list-action-url",
+        "label": "Form 'action' URL"
+      },
+      {
+        "type": "text",
+        "id": "campaign-monitor-name",
+        "label": "Campaign Monitor input 'name'"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-mailing-list-banner",
+        "label": "Display mailing list banner (home page only)"
+      },
+      {
+        "type": "text",
+        "id": "mailing-list-message",
+        "label": "Mailing list banner message"
+      },
+      {
+        "type": "text",
+        "id": "mailing-list-placeholder",
+        "label": "Mailing list banner email placeholder text"
+      },
+      {
+        "type": "header",
+        "content": "Copyright & payment options"
+      },
+      {
+        "type": "color",
+        "id": "copyright-background",
+        "label": "Background color"
+      },
+      {
+        "type": "color",
+        "id": "copyright-color",
+        "label": "Text color"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-diners-club",
+        "label": "Diners Club"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-maestro",
+        "label": "Maestro"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-interac",
+        "label": "Interac"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-visa",
+        "label": "Visa"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-mastercard",
+        "label": "Mastercard"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-discover",
+        "label": "Discover"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-dk",
+        "label": "Dankort"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-american-express",
+        "label": "American Express"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-google-wallet",
+        "label": "Google Wallet"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-paypal",
+        "label": "PayPal"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-jcb",
+        "label": "JCB"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-cirrus",
+        "label": "Cirrus"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-stripe",
+        "label": "Stripe"
+      },
+      {
+        "type": "checkbox",
+        "id": "show-bitcoin",
+        "label": "Bitcoin"
+      }
+    ]
+  }
+]

@@ -1,0 +1,1354 @@
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.NavigationView = (function(_super) {
+    __extends(NavigationView, _super);
+
+    function NavigationView() {
+      return NavigationView.__super__.constructor.apply(this, arguments);
+    }
+
+    NavigationView.prototype.events = {
+      'mouseenter .has-dropdown': 'toggleActive',
+      'mouseleave .has-dropdown': 'toggleActive',
+      'click .mobile-nav-navigate': 'toggleNav',
+      'click .has-dropdown > a': 'toggleSubNav'
+    };
+
+    NavigationView.prototype.initialize = function() {
+      return $(window).resize((function(_this) {
+        return function() {
+          return _this.stripClasses();
+        };
+      })(this));
+    };
+
+    NavigationView.prototype.toggleActive = function(e) {
+      if (!Modernizr.mq('(max-width: 720px)')) {
+        return $(e.currentTarget).toggleClass('active').siblings().toggleClass('faded');
+      }
+    };
+
+    NavigationView.prototype.toggleNav = function() {
+      if (Modernizr.mq('(max-width: 720px)')) {
+        this.$('nav.navigation').toggle();
+        return this.$('.mobile-nav-navigate').toggleClass('active');
+      }
+    };
+
+    NavigationView.prototype.toggleSubNav = function(e) {
+      var childList, listItem;
+      if (Modernizr.mq('(max-width: 720px)')) {
+        listItem = ($(e.currentTarget)).parent();
+        childList = listItem.find('> ul');
+        listItem.toggleClass('expanded');
+        childList.toggle();
+        return false;
+      }
+    };
+
+    NavigationView.prototype.stripClasses = function() {
+      if (!Modernizr.mq('(max-width: 720px)')) {
+        this.$('nav.navigation').attr('style', '');
+        this.$('.dropdown-list').attr('style', '');
+        return this.$('.expanded').removeClass('expanded');
+      }
+    };
+
+    return NavigationView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.HeaderView = (function(_super) {
+    __extends(HeaderView, _super);
+
+    function HeaderView() {
+      return HeaderView.__super__.constructor.apply(this, arguments);
+    }
+
+    HeaderView.prototype.events = {
+      'click .search-toggle': 'openSearch',
+      'keydown': 'closeSearch',
+      'click .mini-cart-toggle': 'goToCart',
+      'click .mini-account-toggle': 'goToAccount',
+      'click .mailing-list-message': 'openEmailField'
+    };
+
+    HeaderView.prototype.initialize = function() {
+      new NavigationView({
+        el: $('.main-header')
+      });
+      this.searchForm = this.$('.search-form');
+      this.verticallyAlignActionLinks();
+      this.calculateWidths();
+      return $(window).resize((function(_this) {
+        return function() {
+          return _this.checkForOverlaps();
+        };
+      })(this));
+    };
+
+    HeaderView.prototype.openSearch = function(e) {
+      this.searchForm.addClass('active').find('input').focus();
+      $(window).on('click.search', (function(_this) {
+        return function(e) {
+          return _this.closeSearch(e);
+        };
+      })(this));
+      return false;
+    };
+
+    HeaderView.prototype.calculateWidths = function() {
+      var actionLinksWidth, brandingWidth, navigationWidth;
+      brandingWidth = this.$el.find('.branding').outerWidth(true);
+      navigationWidth = this.$el.find('.navigation > ul').outerWidth();
+      actionLinksWidth = this.$el.find('.action-links').outerWidth();
+      this.combinedWidths = brandingWidth + navigationWidth + actionLinksWidth;
+      return this.checkForOverlaps();
+    };
+
+    HeaderView.prototype.checkForOverlaps = function() {
+      var actionLinks, headerWidth, navigation, navigationBox, overlap;
+      navigation = this.$el.find('.navigation');
+      navigationBox = navigation[0].getBoundingClientRect();
+      actionLinks = this.$el.find('.action-links')[0].getBoundingClientRect();
+      overlap = !(navigationBox.right < actionLinks.left || navigationBox.left > actionLinks.right || navigationBox.bottom < actionLinks.top || navigationBox.top > actionLinks.bottom);
+      headerWidth = this.$el.find('.main-header').width();
+      if (headerWidth > this.combinedWidths) {
+        return navigation.removeClass('overlapping');
+      } else if (overlap) {
+        return navigation.addClass('overlapping');
+      }
+    };
+
+    HeaderView.prototype.closeSearch = function(e) {
+      if (!$(e.target).hasClass('search-toggle')) {
+        if (this.searchForm.hasClass('active') && !$(e.target).hasClass('search-input')) {
+          this.searchForm.removeClass('active');
+          $(window).off('click.search');
+          return;
+        }
+      }
+      if (e.type === 'keydown') {
+        if (e.keyCode === 27) {
+          this.searchForm.removeClass('active');
+        }
+      }
+    };
+
+    HeaderView.prototype.goToCart = function() {
+      return document.location = "/cart";
+    };
+
+    HeaderView.prototype.goToAccount = function() {
+      return document.location = "/account";
+    };
+
+    HeaderView.prototype.openEmailField = function(e) {
+      if (Modernizr.mq('(max-width: 720px)')) {
+        $(e.target).addClass('hidden');
+        this.$('.mailing-list-banner form').addClass('active');
+        return this.$('.mailing-list-banner input').focus();
+      }
+    };
+
+    HeaderView.prototype.verticallyAlignActionLinks = function() {
+      var logo;
+      logo = this.$('.branding .regular-logo');
+      if (logo.length) {
+        logo.one('load', (function(_this) {
+          return function() {
+            var actionLinks, actionLinksHeight, logoHeight, newTop;
+            logoHeight = _this.$('.regular-logo').height();
+            actionLinks = _this.$('.action-links');
+            actionLinksHeight = actionLinks.height();
+            newTop = logoHeight > actionLinksHeight ? ((logoHeight + 100) - actionLinksHeight) / 2 : '';
+            return actionLinks.css({
+              top: newTop,
+              visibility: 'visible'
+            });
+          };
+        })(this));
+        if (logo[0].complete) {
+          return logo.load();
+        }
+      } else {
+        return this.$('.action-links').css({
+          visibility: 'visible'
+        });
+      }
+    };
+
+    HeaderView.prototype.render = function() {};
+
+    return HeaderView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.SlideshowView = (function(_super) {
+    __extends(SlideshowView, _super);
+
+    function SlideshowView() {
+      return SlideshowView.__super__.constructor.apply(this, arguments);
+    }
+
+    SlideshowView.prototype.events = {
+      'click .previous': 'previousSlide',
+      'click .next': 'nextSlide',
+      'mouseenter': 'stopTimer',
+      'mouseleave': 'autoPlay'
+    };
+
+    SlideshowView.prototype.initialize = function() {
+      this.slidesReady = $.Deferred();
+      return this.extraSpace = this.$el.hasClass('has-offset-slide') ? 34 : 0;
+    };
+
+    SlideshowView.prototype.setupSlides = function() {
+      var slideCount, slides;
+      slides = this.$('.slideshow-slide');
+      slideCount = slides.length;
+      if (slideCount === 1) {
+        this.$('.slide-navigation').remove();
+      }
+      return this.$el.imagesLoaded((function(_this) {
+        return function() {
+          var count, slide, slideHeight, _i, _len, _results;
+          count = 0;
+          _results = [];
+          for (_i = 0, _len = slides.length; _i < _len; _i++) {
+            slide = slides[_i];
+            count++;
+            slide = $(slide);
+            slideHeight = slide.height();
+            slide.data('height', slideHeight);
+            if ($('html').hasClass('lt-ie9')) {
+              _this.alignSlideCTA(slide);
+            }
+            if (count = slideCount) {
+              _results.push(_this.slidesReady.resolve());
+            } else {
+              _results.push(void 0);
+            }
+          }
+          return _results;
+        };
+      })(this));
+    };
+
+    SlideshowView.prototype.alignSlideCTA = function(slide) {
+      var action, ctaHeight, ctaWidth;
+      action = slide.find('.action');
+      ctaWidth = action.outerWidth();
+      ctaHeight = action.height();
+      return action.css({
+        marginLeft: action.hasClass('center') ? -(ctaWidth / 2) : '',
+        marginTop: -(ctaHeight / 2)
+      });
+    };
+
+    SlideshowView.prototype.previousSlide = function() {
+      var currentSlide, previousSlide, previousSlideHeight;
+      currentSlide = this.$('.active');
+      previousSlide = currentSlide.prev();
+      if (!previousSlide.length) {
+        previousSlide = this.$('.slideshow-slide:last');
+      }
+      previousSlideHeight = previousSlide.data('height');
+      return this.switchSlides(currentSlide, previousSlide, previousSlideHeight);
+    };
+
+    SlideshowView.prototype.nextSlide = function() {
+      var currentSlide, nextSlide, nextSlideHeight;
+      currentSlide = this.$('.active');
+      nextSlide = currentSlide.next();
+      if (!nextSlide.length) {
+        nextSlide = this.$('.slideshow-slide:first');
+      }
+      nextSlideHeight = nextSlide.data('height');
+      return this.switchSlides(currentSlide, nextSlide, nextSlideHeight);
+    };
+
+    SlideshowView.prototype.switchSlides = function(current, next, height) {
+      this.$el.height(height + this.extraSpace);
+      current.toggleClass('active');
+      return next.toggleClass('active');
+    };
+
+    SlideshowView.prototype.autoPlay = function() {
+      var durationInMilliseconds;
+      if (settings.slideshowAutoPlay) {
+        if (!settings.slideDuration) {
+          durationInMilliseconds = 5000;
+        } else {
+          durationInMilliseconds = settings.slideDuration * 1000;
+        }
+        return this.slideTimer = setInterval(((function(_this) {
+          return function() {
+            return _this.nextSlide();
+          };
+        })(this)), durationInMilliseconds);
+      }
+    };
+
+    SlideshowView.prototype.stopTimer = function() {
+      return clearInterval(this.slideTimer);
+    };
+
+    SlideshowView.prototype.centerNavigation = function() {
+      var imageHeight, navigation, slide, slides, _i, _len, _results;
+      slides = this.$('.slideshow-slide');
+      _results = [];
+      for (_i = 0, _len = slides.length; _i < _len; _i++) {
+        slide = slides[_i];
+        slide = $(slide);
+        navigation = slide.find('.slide-navigation');
+        if (navigation.length) {
+          imageHeight = slide.find('img').height();
+          _results.push(navigation.find('span').css({
+            top: imageHeight / 2
+          }));
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
+    };
+
+    SlideshowView.prototype.render = function() {
+      this.setupSlides();
+      this.slidesReady.done((function(_this) {
+        return function() {
+          _this.$el.height(_this.$('.slideshow-slide:first').data('height') + _this.extraSpace);
+          _this.$('.slideshow-slide:first').addClass('active');
+          if (settings.slideshowAutoPlay) {
+            _this.autoPlay();
+          }
+          if (Modernizr.mq('(max-width: 720px)')) {
+            return _this.centerNavigation();
+          }
+        };
+      })(this));
+      return $(window).resize((function(_this) {
+        return function() {
+          _this.$el.css({
+            height: _this.$('.slideshow-slide.active').height() + _this.extraSpace
+          });
+          _this.setupSlides();
+          if (Modernizr.mq('(max-width: 720px)')) {
+            return _this.centerNavigation();
+          } else {
+            return _this.$('.slide-navigation span').attr('style', '');
+          }
+        };
+      })(this));
+    };
+
+    return SlideshowView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.HomeView = (function(_super) {
+    __extends(HomeView, _super);
+
+    function HomeView() {
+      return HomeView.__super__.constructor.apply(this, arguments);
+    }
+
+    HomeView.prototype.events = {};
+
+    HomeView.prototype.initialize = function() {
+      if (settings.showSlideshow) {
+        this.slideshowView = new SlideshowView({
+          el: $('.slideshow')
+        });
+        this.slideshowView.render();
+      }
+      if (settings.showInstagramWidget) {
+        this.getImages();
+      }
+      if (settings.showTwitterWidget) {
+        return this.fetchTweets();
+      }
+    };
+
+    HomeView.prototype.getImages = function() {
+      var instagramWidget, photoContainer, url;
+      instagramWidget = this.$('.instagram-widget');
+      photoContainer = this.$('.instagram-photos');
+      if (settings.showInstagramTag) {
+        url = "https://api.instagram.com/v1/tags/" + settings.instagramTag + "/media/recent?access_token=" + settings.instagramAccessToken + "&count=6&callback=";
+      } else {
+        url = "https://api.instagram.com/v1/users/self/media/recent?access_token=" + settings.instagramAccessToken + "&count=6&callback=";
+      }
+      return $.ajax({
+        type: "GET",
+        dataType: "jsonp",
+        url: url,
+        success: (function(_this) {
+          return function(response) {
+            var photo, _i, _len, _ref, _results;
+            if (response.meta.code === 200) {
+              _ref = response.data;
+              _results = [];
+              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                photo = _ref[_i];
+                _results.push(photoContainer.append("<a class='instagram-photo' target='_blank' href='" + photo.link + "'><img src='" + photo.images.low_resolution.url + "'/></a>"));
+              }
+              return _results;
+            } else {
+              instagramWidget.remove();
+              return console.log("Instagram error: " + response.meta.error_message);
+            }
+          };
+        })(this),
+        error: (function(_this) {
+          return function(response) {
+            instagramWidget.remove();
+            return console.log("Instagram error: " + response.meta.error_message);
+          };
+        })(this)
+      });
+    };
+
+    HomeView.prototype.fetchTweets = function() {
+      var config;
+      config = {
+        'id': settings.twitterWidgetId,
+        'maxTweets': 1,
+        'enableLinks': true,
+        'showUser': true,
+        'showTime': true,
+        'showRetweet': settings.twitterRetweets,
+        'customCallback': this.renderTweets,
+        'showInteraction': false
+      };
+      return twitterFetcher.fetch(config);
+    };
+
+    HomeView.prototype.renderTweets = function(tweets) {
+      var tweet, _i, _len, _results;
+      if (tweets.length) {
+        _results = [];
+        for (_i = 0, _len = tweets.length; _i < _len; _i++) {
+          tweet = tweets[_i];
+          tweet = $(tweet);
+          _results.push(this.$('.twitter-tweet').append(tweet[1].innerHTML, "<span class='timestamp'>" + tweet[2].innerHTML + " <span class='divider'>/</span> " + tweet[0].innerHTML + "</span>"));
+        }
+        return _results;
+      } else {
+        $('.twitter-widget').remove();
+        return console.log("No tweets to display. Most probable cause is an incorrectly entered Widget ID.");
+      }
+    };
+
+    HomeView.prototype.render = function() {
+      if (settings.featuredCollections) {
+        this.listCollectionsView = new ListCollectionsView({
+          el: this.$el
+        });
+        return this.listCollectionsView.render();
+      }
+    };
+
+    return HomeView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.CollectionView = (function(_super) {
+    __extends(CollectionView, _super);
+
+    function CollectionView() {
+      return CollectionView.__super__.constructor.apply(this, arguments);
+    }
+
+    CollectionView.prototype.events = {
+      'change .filter select': 'filterCollection'
+    };
+
+    CollectionView.prototype.initialize = function() {};
+
+    CollectionView.prototype.updateFancySelect = function() {
+      var currentSelection, label, select;
+      select = this.$('.filter select');
+      label = this.$('.filter label');
+      currentSelection = select.find('option:selected').text();
+      return label.text(currentSelection);
+    };
+
+    CollectionView.prototype.filterCollection = function(e) {
+      var filter;
+      filter = this.$(e.target).val();
+      if (filter) {
+        return window.location.href = filter;
+      }
+    };
+
+    CollectionView.prototype.render = function() {
+      return this.updateFancySelect();
+    };
+
+    return CollectionView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.ListCollectionsView = (function(_super) {
+    __extends(ListCollectionsView, _super);
+
+    function ListCollectionsView() {
+      return ListCollectionsView.__super__.constructor.apply(this, arguments);
+    }
+
+    ListCollectionsView.prototype.events = {};
+
+    ListCollectionsView.prototype.initialize = function() {};
+
+    ListCollectionsView.prototype.centerCollectionTitles = function() {
+      var collection, collections, title, titleHeight, titleWidth, _i, _len, _results;
+      collections = this.$('.collection-list-item');
+      _results = [];
+      for (_i = 0, _len = collections.length; _i < _len; _i++) {
+        collection = collections[_i];
+        collection = $(collection);
+        title = collection.find('h2');
+        titleWidth = title.outerWidth();
+        titleHeight = title.outerHeight();
+        if (collection.hasClass('centered')) {
+          title.css({
+            marginTop: -(titleHeight / 2)
+          });
+        }
+        _results.push(title.css({
+          marginLeft: -(titleWidth / 2),
+          left: '50%'
+        }));
+      }
+      return _results;
+    };
+
+    ListCollectionsView.prototype.render = function() {
+      if (settings.collectionAlignment !== 'below') {
+        this.centerCollectionTitles();
+        return $(window).resize((function(_this) {
+          return function() {
+            return _this.centerCollectionTitles();
+          };
+        })(this));
+      }
+    };
+
+    return ListCollectionsView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.ShareView = (function(_super) {
+    __extends(ShareView, _super);
+
+    function ShareView() {
+      return ShareView.__super__.constructor.apply(this, arguments);
+    }
+
+    ShareView.prototype.initialize = function() {
+      var permalink;
+      permalink = this.$el.data('permalink');
+      $.getJSON('http://urls.api.twitter.com/1/urls/count.json?url=' + permalink + '&callback=?', (function(_this) {
+        return function(data) {
+          var twitterShares;
+          twitterShares = data.count;
+          return _this.$('.share-twitter .share-count').text(twitterShares).css({
+            opacity: 1
+          });
+        };
+      })(this));
+      $.getJSON('http://graph.facebook.com/?ids=' + permalink + '&callback=?', (function(_this) {
+        return function(data) {
+          var facebookShares;
+          facebookShares = data[permalink].shares;
+          if (!facebookShares) {
+            facebookShares = 0;
+          }
+          return _this.$('.share-facebook .share-count').text(facebookShares).css({
+            opacity: 1
+          });
+        };
+      })(this));
+      if (this.$('.share-pinterest').length) {
+        $.getJSON('http://api.pinterest.com/v1/urls/count.json?url=' + permalink + '&callback=?', (function(_this) {
+          return function(data) {
+            var pinterestShares;
+            pinterestShares = data.count;
+            return _this.$('.share-pinterest .share-count').text(pinterestShares).css({
+              opacity: 1
+            });
+          };
+        })(this));
+      }
+      return this.$('.share-google .share-count').css({
+        opacity: 1
+      });
+    };
+
+    return ShareView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.ArticleView = (function(_super) {
+    __extends(ArticleView, _super);
+
+    function ArticleView() {
+      return ArticleView.__super__.constructor.apply(this, arguments);
+    }
+
+    ArticleView.prototype.initialize = function() {
+      this.checkForFloats();
+      return this.shareView = new ShareView({
+        el: this.$('.share-buttons')
+      });
+    };
+
+    ArticleView.prototype.checkForFloats = function() {
+      var image, images, _i, _len, _results;
+      images = this.$el.find('.article-content img');
+      _results = [];
+      for (_i = 0, _len = images.length; _i < _len; _i++) {
+        image = images[_i];
+        if ($(image).css('float') === 'right') {
+          $(image).css({
+            margin: '0 0 14px 14px'
+          });
+        }
+        if ($(image).css('float') === 'left') {
+          _results.push($(image).css({
+            margin: '0 14px 14px 0'
+          }));
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
+    };
+
+    return ArticleView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.BlogView = (function(_super) {
+    __extends(BlogView, _super);
+
+    function BlogView() {
+      return BlogView.__super__.constructor.apply(this, arguments);
+    }
+
+    BlogView.prototype.initialize = function() {
+      var article, _i, _len, _ref, _results;
+      _ref = $('.blog-article');
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        article = _ref[_i];
+        _results.push(this.articleView = new ArticleView({
+          el: article
+        }));
+      }
+      return _results;
+    };
+
+    BlogView.prototype.render = function() {};
+
+    return BlogView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.ProductView = (function(_super) {
+    __extends(ProductView, _super);
+
+    function ProductView() {
+      return ProductView.__super__.constructor.apply(this, arguments);
+    }
+
+    ProductView.prototype.events = {
+      'click .product-thumbnails img': 'swapProductImage',
+      'mousemove .zoom-enabled': 'zoomImage',
+      'click .zoom-enabled': 'toggleZoom',
+      'mouseout .zoom': 'toggleZoom',
+      'click .submit.disabled': 'noVariant'
+    };
+
+    ProductView.prototype.initialize = function() {
+      this.productData = window.product;
+      return this.shareView = new ShareView({
+        el: this.$('.share-buttons')
+      });
+    };
+
+    ProductView.prototype.noVariant = function() {
+      return false;
+    };
+
+    ProductView.prototype.updateVariantLabel = function(select) {
+      var selectedVariant;
+      if (select) {
+        select = $(select);
+        selectedVariant = select.find('option:selected').val();
+        return select.prev('.select-text').text(selectedVariant);
+      }
+    };
+
+    ProductView.prototype.swapProductImage = function(e) {
+      var nextImage;
+      this.$('.product-thumbnails img').removeClass('active');
+      $(e.target).addClass('active');
+      nextImage = $(e.target).data('high-res');
+      this.$('.product-big-image img').attr('src', nextImage);
+      if (this.$('.product-big-image').hasClass('can-zoom')) {
+        return this.setUpZoom();
+      }
+    };
+
+    ProductView.prototype.cacheImages = function(images) {
+      var bigImage, image, _i, _len, _results;
+      this.cacheImages.cache = [];
+      _results = [];
+      for (_i = 0, _len = images.length; _i < _len; _i++) {
+        image = images[_i];
+        bigImage = new Image();
+        bigImage.src = image;
+        _results.push(this.cacheImages.cache.push(bigImage));
+      }
+      return _results;
+    };
+
+    ProductView.prototype.setUpZoom = function() {
+      var bigImage, bigImageWrap;
+      bigImageWrap = this.$('.product-big-image');
+      bigImage = bigImageWrap.find('img');
+      return bigImage.load((function(_this) {
+        return function() {
+          var bigImageOffset, photoArea, photoSize, temporaryImage, zoom, zoomImage;
+          temporaryImage = new Image();
+          temporaryImage.src = bigImage.attr('src');
+          photoArea = bigImageWrap.width();
+          photoSize = temporaryImage.width;
+          if (photoSize / photoArea < 1.4) {
+            bigImageWrap.removeClass('zoom-enabled');
+          } else {
+            bigImageWrap.addClass('zoom-enabled');
+            zoom = _this.$('.zoom');
+            zoomImage = new Image();
+            zoomImage.src = bigImage.attr('src');
+            $(zoomImage).load(function() {
+              _this.zoomImageWidth = zoomImage.width;
+              return _this.zoomImageHeight = zoomImage.height;
+            });
+            zoom.css({
+              backgroundImage: "url(" + zoomImage.src + ")"
+            });
+            bigImageOffset = bigImageWrap.offset();
+            _this.bigImageX = bigImageOffset.left;
+            return _this.bigImageY = bigImageOffset.top;
+          }
+        };
+      })(this));
+    };
+
+    ProductView.prototype.zoomImage = function(e) {
+      var mousePositionX, mousePositionY, newBackgroundPosition, ratioX, ratioY, zoom, zoomHeight, zoomWidth;
+      zoom = this.$('.zoom');
+      zoomWidth = zoom.width();
+      zoomHeight = zoom.height();
+      mousePositionX = e.pageX - this.bigImageX;
+      mousePositionY = e.pageY - this.bigImageY;
+      if (mousePositionX < zoomWidth && mousePositionY < zoomHeight && mousePositionX > 0 && mousePositionY > 0) {
+        if (zoom.hasClass('active')) {
+          ratioX = Math.round(mousePositionX / zoomWidth * this.zoomImageWidth - zoomWidth / 2) * -1;
+          ratioY = Math.round(mousePositionY / zoomHeight * this.zoomImageHeight - zoomHeight / 2) * -1;
+          if (ratioX > 0) {
+            ratioX = 0;
+          }
+          if (ratioY > 0) {
+            ratioY = 0;
+          }
+          if (ratioX < -(this.zoomImageWidth - zoomWidth)) {
+            ratioX = -(this.zoomImageWidth - zoomWidth);
+          }
+          if (ratioY < -(this.zoomImageHeight - zoomHeight)) {
+            ratioY = -(this.zoomImageHeight - zoomHeight);
+          }
+          newBackgroundPosition = "" + ratioX + "px " + ratioY + "px";
+          return zoom.css({
+            backgroundPosition: newBackgroundPosition
+          });
+        }
+      }
+    };
+
+    ProductView.prototype.toggleZoom = function(e) {
+      if ($('html').hasClass('lt-ie9')) {
+        return false;
+      }
+      if (e.type === 'mouseout') {
+        this.$('.zoom').removeClass('active');
+        return;
+      }
+      if (this.$('.zoom').hasClass('active')) {
+        return this.$('.zoom').removeClass('active');
+      } else {
+        this.$('.zoom').addClass('active');
+        return this.zoomImage(e);
+      }
+    };
+
+    ProductView.prototype.render = function() {
+      var select, selectableOptions, _i, _len;
+      selectableOptions = this.$('.selector-wrapper select');
+      for (_i = 0, _len = selectableOptions.length; _i < _len; _i++) {
+        select = selectableOptions[_i];
+        this.updateVariantLabel(select);
+      }
+      this.$('.options select').change((function(_this) {
+        return function(e) {
+          return _this.updateVariantLabel(e.target);
+        };
+      })(this));
+      if (this.$('.product-big-image').hasClass('can-zoom')) {
+        this.setUpZoom();
+      }
+      return $(window).bind("load", (function(_this) {
+        return function() {
+          var bigImage, images, thumbnail, thumbnails, _j, _len1;
+          thumbnails = _this.$('.product-thumbnails img');
+          images = [];
+          for (_j = 0, _len1 = thumbnails.length; _j < _len1; _j++) {
+            thumbnail = thumbnails[_j];
+            bigImage = $(thumbnail).data('high-res');
+            if (bigImage !== _this.productData.featured_image) {
+              images.push(bigImage);
+            }
+          }
+          return _this.cacheImages(images);
+        };
+      })(this));
+    };
+
+    return ProductView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.CartView = (function(_super) {
+    __extends(CartView, _super);
+
+    function CartView() {
+      return CartView.__super__.constructor.apply(this, arguments);
+    }
+
+    CartView.prototype.events = {
+      'change .quantity input': 'updateQuantity',
+      'change .instructions textarea': 'saveNote',
+      'click .remove': 'removeProduct'
+    };
+
+    CartView.prototype.initialize = function() {
+      return this.cartTotal = $('.cart-totals .price');
+    };
+
+    CartView.prototype.updateQuantity = function(e) {
+      var input, linePrice, newQuantity, productID;
+      input = $(e.currentTarget);
+      newQuantity = input.val();
+      productID = input.data('id');
+      linePrice = input.parent().next();
+      if (newQuantity === '0') {
+        this.removeProduct(null, productID);
+        return;
+      }
+      return Shopify.changeItem(productID, newQuantity, (function(_this) {
+        return function(cart) {
+          var item, newCartTotal, newProductPrice, _i, _len, _ref;
+          _ref = cart.items;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            item = _ref[_i];
+            if (item.id === productID) {
+              newProductPrice = Shopify.formatMoney(item.line_price, settings.moneyFormat);
+            }
+          }
+          newCartTotal = Shopify.formatMoney(cart.total_price, settings.moneyFormat);
+          linePrice.html(newProductPrice);
+          return _this.cartTotal.html(newCartTotal);
+        };
+      })(this));
+    };
+
+    CartView.prototype.removeProduct = function(e, variantID) {
+      var productLine;
+      if (e) {
+        e.preventDefault();
+      }
+      if (variantID) {
+        productLine = $("tr.variant-" + variantID);
+      } else {
+        variantID = $(e.target).data('variant-id');
+        productLine = $(e.target).parents('tr');
+      }
+      return Shopify.removeItem(variantID, (function(_this) {
+        return function(cart) {
+          if (!cart.item_count) {
+            window.location = '/cart';
+          }
+          return productLine.fadeOut(function() {
+            var newCartTotal;
+            productLine.remove();
+            newCartTotal = Shopify.formatMoney(cart.total_price, settings.moneyFormat);
+            return _this.cartTotal.text(newCartTotal);
+          });
+        };
+      })(this));
+    };
+
+    CartView.prototype.saveNote = function() {
+      var newNote;
+      newNote = $('.instructions textarea').val();
+      return Shopify.updateCartNote(newNote, function(cart) {});
+    };
+
+    CartView.prototype.updateShippingLabel = function(select) {
+      var selectedVariant;
+      if (select) {
+        select = $(select);
+        selectedVariant = select.find('option:selected').val();
+        return select.prev('.selected-option').text(selectedVariant);
+      }
+    };
+
+    CartView.prototype.render = function() {
+      var select, selectableOptions, _i, _len;
+      selectableOptions = this.$('.select-wrapper select');
+      for (_i = 0, _len = selectableOptions.length; _i < _len; _i++) {
+        select = selectableOptions[_i];
+        this.updateShippingLabel(select);
+      }
+      this.$('.select-wrapper select').change((function(_this) {
+        return function(e) {
+          var _j, _len1, _results;
+          _results = [];
+          for (_j = 0, _len1 = selectableOptions.length; _j < _len1; _j++) {
+            select = selectableOptions[_j];
+            _results.push(_this.updateShippingLabel(select));
+          }
+          return _results;
+        };
+      })(this));
+      this.$('.cart-products').mobileTable();
+      return $(window).resize(function() {
+        return this.$('.cart-products').mobileTable();
+      });
+    };
+
+    return CartView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.PageView = (function(_super) {
+    __extends(PageView, _super);
+
+    function PageView() {
+      return PageView.__super__.constructor.apply(this, arguments);
+    }
+
+    PageView.prototype.events = {
+      'change .select-wrapper select': 'updateOptionLabel'
+    };
+
+    PageView.prototype.initialize = function() {};
+
+    PageView.prototype.updateOptionLabel = function() {
+      var select, selectedVariant;
+      select = $('.select-wrapper select');
+      selectedVariant = select.find('option:selected').val();
+      return select.prev('.selected-option').text(selectedVariant);
+    };
+
+    return PageView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.AccountView = (function(_super) {
+    __extends(AccountView, _super);
+
+    function AccountView() {
+      return AccountView.__super__.constructor.apply(this, arguments);
+    }
+
+    AccountView.prototype.events = {
+      'click .new-address-toggle': 'toggleNewAddress',
+      'click .recover-password-toggle': 'toggleRecoverPassword'
+    };
+
+    AccountView.prototype.initialize = function() {};
+
+    AccountView.prototype.toggleNewAddress = function() {
+      return this.$('.add-new-address').toggleClass('active');
+    };
+
+    AccountView.prototype.toggleRecoverPassword = function() {
+      this.$('.recover-password').toggleClass('active');
+      return this.$('.account-login').toggleClass('hidden');
+    };
+
+    AccountView.prototype.updateSelectedOption = function(select) {
+      var addressID, selectedVariant;
+      select = $(select);
+      selectedVariant = select.find('option:selected').text();
+      if (selectedVariant !== '') {
+        select.prev('.selected-option').text(selectedVariant);
+      }
+      if (select.attr('name') === 'address[country]') {
+        addressID = $(select).attr('id').split('address-country-')[1];
+        return this.updateSelectedOption($('#address-province-' + addressID));
+      }
+    };
+
+    AccountView.prototype.render = function() {
+      var select, selectableOptions, _i, _len;
+      selectableOptions = this.$('.select-wrapper select');
+      for (_i = 0, _len = selectableOptions.length; _i < _len; _i++) {
+        select = selectableOptions[_i];
+        this.updateSelectedOption(select);
+      }
+      this.$('.select-wrapper select').change((function(_this) {
+        return function(e) {
+          return _this.updateSelectedOption(e.target);
+        };
+      })(this));
+      this.$('.order-history table').mobileTable();
+      return $(window).resize(function() {
+        return this.$('.order-history table').mobileTable();
+      });
+    };
+
+    return AccountView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.RTEView = (function(_super) {
+    __extends(RTEView, _super);
+
+    function RTEView() {
+      return RTEView.__super__.constructor.apply(this, arguments);
+    }
+
+    RTEView.prototype.events = {
+      'click .rte .tabs li': 'switchTabs'
+    };
+
+    RTEView.prototype.initialize = function() {
+      this.setupTabs();
+      this.$el.fitVids();
+      this.mobilifyTables();
+      return $(window).resize((function(_this) {
+        return function() {
+          return _this.mobilifyTables();
+        };
+      })(this));
+    };
+
+    RTEView.prototype.switchTabs = function(e) {
+      var content, position, tab, tabContainer, tabContentContainer;
+      tab = $(e.currentTarget);
+      tabContainer = tab.parent();
+      tabContentContainer = tabContainer.next();
+      position = tab.index();
+      content = tabContentContainer.find('li').eq(position);
+      tabContainer.find('> li').removeClass('active');
+      tabContentContainer.find('> li').removeClass('active');
+      tab.addClass('active');
+      return content.addClass('active');
+    };
+
+    RTEView.prototype.setupTabs = function() {
+      var tabs;
+      tabs = this.$el.find('.tabs');
+      tabs.find('li:first').addClass('active');
+      return tabs.next().find('li:first').addClass('active');
+    };
+
+    RTEView.prototype.mobilifyTables = function() {
+      return this.$el.find('table').mobileTable();
+    };
+
+    return RTEView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.FooterView = (function(_super) {
+    __extends(FooterView, _super);
+
+    function FooterView() {
+      return FooterView.__super__.constructor.apply(this, arguments);
+    }
+
+    FooterView.prototype.initialize = function() {};
+
+    return FooterView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.NotFoundView = (function(_super) {
+    __extends(NotFoundView, _super);
+
+    function NotFoundView() {
+      return NotFoundView.__super__.constructor.apply(this, arguments);
+    }
+
+    NotFoundView.prototype.events = {};
+
+    NotFoundView.prototype.render = function() {
+      if (settings.featuredCollections) {
+        this.listCollectionsView = new ListCollectionsView({
+          el: this.$el
+        });
+        return this.listCollectionsView.render();
+      }
+    };
+
+    return NotFoundView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  window.ThemeView = (function(_super) {
+    __extends(ThemeView, _super);
+
+    function ThemeView() {
+      return ThemeView.__super__.constructor.apply(this, arguments);
+    }
+
+    ThemeView.prototype.el = document.body;
+
+    ThemeView.prototype.initialize = function() {
+      var body;
+      body = $(document.body);
+      if (navigator.userAgent.indexOf('MSIE 10.0') > 0) {
+        this.isIE10 === true;
+        $('html').addClass('ie10');
+      }
+      this.isHome = body.hasClass('template-index');
+      this.isCollection = body.hasClass('template-collection');
+      this.isListCollections = body.hasClass('template-list-collections');
+      this.isProduct = body.hasClass('template-product');
+      this.isCart = body.hasClass('template-cart');
+      this.isPage = body.hasClass('template-page');
+      this.isBlog = body.hasClass('template-blog') || body.hasClass('template-article');
+      this.isAccount = body.attr('class').indexOf('-customers-') > 0;
+      return this.is404 = body.hasClass('template-404');
+    };
+
+    ThemeView.prototype.render = function() {
+      var rte, _i, _len, _ref;
+      this.headerView = new HeaderView({
+        el: $('.header-wrapper')
+      });
+      this.headerView.render();
+      this.footerView = new FooterView({
+        el: $('footer')
+      });
+      this.footerView.render();
+      _ref = $('.rte');
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        rte = _ref[_i];
+        this.rteView = new RTEView({
+          el: rte
+        });
+      }
+      if (this.isHome) {
+        this.homeView = new HomeView({
+          el: this.$el
+        });
+        this.homeView.render();
+      }
+      if (this.isCollection) {
+        this.collectionView = new CollectionView({
+          el: this.$el
+        });
+        this.collectionView.render();
+      }
+      if (this.isListCollections) {
+        this.listCollectionsView = new ListCollectionsView({
+          el: $('.collection-list')
+        });
+        this.listCollectionsView.render();
+      }
+      if (this.isProduct) {
+        this.productView = new ProductView({
+          el: this.$el
+        });
+        this.productView.render();
+      }
+      if (this.isCart) {
+        this.cartView = new CartView({
+          el: $('.cart.content')
+        });
+        this.cartView.render();
+      }
+      if (this.isPage) {
+        this.pageView = new PageView({
+          el: $('.page-content')
+        });
+        this.pageView.render();
+      }
+      if (this.isBlog) {
+        this.blogView = new BlogView({
+          el: this.$el
+        });
+        this.blogView.render();
+      }
+      if (this.isAccount) {
+        this.accountView = new AccountView({
+          el: this.$el
+        });
+        this.accountView.render();
+      }
+      if (this.is404) {
+        this.notFoundView = new NotFoundView({
+          el: this.$el
+        });
+        this.notFoundView.render();
+      }
+      if ($('html').hasClass('lt-ie10')) {
+        return this.inputPlaceholderFix();
+      }
+    };
+
+    ThemeView.prototype.inputPlaceholderFix = function() {
+      var input, placeholders, text, _i, _len;
+      placeholders = $('[placeholder]');
+      for (_i = 0, _len = placeholders.length; _i < _len; _i++) {
+        input = placeholders[_i];
+        input = $(input);
+        if (!(input.val().length > 0)) {
+          text = input.attr('placeholder');
+          input.attr('value', text);
+          input.data('original-text', text);
+        }
+      }
+      placeholders.focus(function() {
+        input = $(this);
+        if (input.val() === input.data('original-text')) {
+          return input.val('');
+        }
+      });
+      return placeholders.blur(function() {
+        input = $(this);
+        if (input.val().length === 0) {
+          return input.val(input.data('original-text'));
+        }
+      });
+    };
+
+    return ThemeView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+(function() {
+  $(function() {
+    window.theme = new ThemeView();
+    return theme.render();
+  });
+
+}).call(this);

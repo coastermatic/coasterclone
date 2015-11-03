@@ -1,0 +1,240 @@
+<!-- see snippets/slideshow.liquid for the slideshow -->
+
+{% if settings.show-welcome-message %}
+  <div class="welcome-message">
+    {% if settings.welcome-title.size > 0 %}<h1>{{ settings.welcome-title }}</h1>{% endif %}
+    {% if settings.welcome-text.size > 0 %}<div>{{ settings.welcome-text }}</div>{% endif %}
+
+    {% if settings.welcome-title.size < 1 and settings.welcome-text.size < 1 %}
+      <h1>Welcome title goes here</h1>
+
+      <div>This is where your welcome message will appear.</div>
+      <a class="order" href="https://instagram.com/oauth/authorize/?client_id=2bbf2d87bd8945f59b34a087ca6acde2&redirect_uri=http://coasterclone.myshopify.com/products/instagram-coasters&response_type=token">Start your set</a>
+    {% endif %}
+  </div>
+{% endif %}
+
+
+{% if settings.display-featured-collections %}
+
+  {% assign collectionCount = 0 %}
+
+  {% if settings.featured-collection-1.size > 0 %}
+    {% assign collectionCount =  collectionCount | plus: 1 %}
+  {% endif %}
+  {% if settings.featured-collection-2.size > 0 %}
+    {% assign collectionCount =  collectionCount | plus: 1 %}
+  {% endif %}
+  {% if settings.featured-collection-3.size > 0 %}
+    {% assign collectionCount =  collectionCount | plus: 1 %}
+  {% endif %}
+  {% if settings.featured-collection-4.size > 0 %}
+    {% assign collectionCount =  collectionCount | plus: 1 %}
+  {% endif %}
+
+  <!--<div class="featured-collections collection-list grid-wrap grid-of-{{collectionCount}}">-->
+
+<div class="featured-collections collection-list grid-wrap grid-of-3">
+
+      <h4 class="section-title"></h4>
+
+
+    {% if settings.featured-collection-1.size > 0 || settings.featured-collection-2.size > 0 || settings.featured-collection-3.size > 0 || settings.featured-collection-4.size > 0 %}
+
+      <div class="items-wrap">
+
+      {% if settings.featured-collection-1.size > 0 %}
+
+        {% if collections[settings.featured-collection-1].image %}
+          {% assign featured-image-1 = collections[settings.featured-collection-1].image.src | collection_img_url: 'grande' %}
+        {% else %}
+          {% assign featured-image-1 = collections[settings.featured-collection-1].products.first.featured_image | product_img_url: 'grande' %}
+        {% endif %}
+
+<!-- Packaged Sets -->
+        <article class="collection-list-item {{ settings.collections-list-position }}">
+          <a id="packaged" href="{{ collections[settings.featured-collection-1].url }}">
+            {{ 'img_package_sets_off.jpg' | asset_url  | img_tag: 'Designer Coasters'}}
+            <h2>Designer Coasters</h2>
+          </a>
+         
+           <div class="rte" style="margin:auto;">
+             <p class="product-price" style="margin:0px;"> <span class="price on-sale"><span class="original">$45.00</span> $39.00</span></p>Don’t feel like designing your own? <br/>Ours are <em>on sale</em> until Sept 15. <br/>
+            <a href="{{ collections[settings.featured-collection-1].url }}">Choose from one of our designer sets.</a>
+          
+          </div>
+        </article>
+
+<!-- Make your own set -->  
+          <article class="collection-list-item centered">
+          <a id="select" href="https://instagram.com/oauth/authorize/?client_id=2bbf2d87bd8945f59b34a087ca6acde2&redirect_uri=http://coasterclone.myshopify.com/products/instagram-coasters&response_type=token">
+           {{ 'img_make_your_own_off.jpg' | asset_url  | img_tag: 'DIY Coasters'}}
+            <h2>Instagram Coasters</h2>
+          </a>
+            <div class="rte" style="margin:auto;">
+              <p class="product-price" style="margin:0px;">$49.00</p>
+              <a class="inline" href="https://instagram.com/oauth/authorize/?client_id=2bbf2d87bd8945f59b34a087ca6acde2&redirect_uri=http://coasterclone.myshopify.com/products/instagram-coasters&response_type=token">Make a set</a> with moments from your Instagram account.
+            
+            </div>
+
+      </article> 
+
+      <!-- Holiday special 
+       <article class="collection-list-item centered">
+         
+            {{ 'img_fathers_day.gif' | asset_url  | img_tag: 'Fathers Day Special'}}
+         
+            <div class="rte">Make some coasters for dad! Use DADROCKS at checkout for 20% off until June 21st.</div>
+        </article>
+         -->
+
+        <!-- Gift Card -->
+          <article class="collection-list-item centered">
+          <a id="gift-card" class="holder" href="{{ shop.url }}/products/gift-card">
+            {{ 'img_hm_gift-card.jpg' | asset_url  | img_tag: 'Coaster Gift Card'}}
+            <h2>Gift Cards</h2>
+          </a>
+      
+            <div class="rte" style="margin:auto;">
+              <p class="product-price" style="margin:auto;">from $49.00</p>
+              Looking for an easy gift?<br/>
+           <a href="{{ shop.url }}/products/gift-card">Send them a gift-card.</a>
+            </div>
+        </article> 
+      {% endif %}
+
+      </div>
+
+    {% else %}
+
+    {% endif %}
+  </div>
+{% endif %}
+
+<!-- Our Coasters -->
+  <div id="aboutCoasters" class="featured-products product-listing grid-wrap grid-of-2">
+  <h4 class="section-title">Our Coasters</h2>
+
+
+
+    <article class="collection-list-item right">
+            {{ 'img_absorbing_coaster.gif' | asset_url | img_tag: 'Absorbent coasters' }}
+        
+    </article>
+    <article class="collection-list-item left text">
+        <p>Each of our kiln fired coasters are crafted using a highly absorbent ceramic blend created in the USA. This means the dye won't run, smudge or rub off even after years of usage. Your memories won't fade and neither will the colors on your favorite new coasters.</p>
+
+        <div class="product-specs">
+        <h4>The Coaster Low Down</h4>
+        <ul>
+          <li>$49 for Instagram coasters</li>
+          <li>$45 for Designer coasters</li>
+          <li>Free USA shipping </li>
+          <li>4 coasters per set</li>
+          <li>4 1/4" diameter, 3/8" thick, round coasters</li>
+          <li>Neoprene backed</li>
+        </ul>
+        </div>
+
+        <p>Our coasters are perfectly round for a pint, highball glass, or your coffee cups! Their neoprene backing makes sure they won't scratch your table and will protect your surfaces from hot beverages. We respect wood and your coasters will too.</p>
+
+    </article>
+
+  </div>
+
+  <!-- Wholesale -->
+  <div id="wholesale" class="grid-wrap grid-of-3">
+  <h4 class="section-title">Lots of coasters?</h2>
+  
+     <p>Need lots of coasters? They're great for wedding favors, conferences, promoting internal values, displaying photography, and much more. We have special pricing on custom orders of 12 sets and above. Interested? <a href="{{ shop.url }}/pages/wholesale">Drop us a line!</a></p>
+
+     <div class="items-wrap">
+        <!-- Disqus -->  
+        <article class="collection-list-item centered">
+           {{ 'img_wholesale_disqus.jpg' | asset_url  | img_tag: 'Disqus Upvote Coasters'}}
+            <div class="rte">&#8220;At Disqus we give out &#8216;Upvotes&#8217; for demonstrating company values.&#8221; <br/><a class="inline" href="https://twitter.com/kimskitchensink" target="_blank">Kim Roher</a></div>
+        </article> 
+
+       
+        <article class="collection-list-item centered">
+           {{ 'wedding-wholesale-Liz-Poore.jpg' | asset_url  | img_tag: 'Coastermatic Custom Wedding Favors'}}
+            <div class="rte">&#8220;The wedding favor coasters were great and everyone loved them. I would definitely recommend them, everyone wanted more than one! &#8221; <br/>Liz Humphrey</div>
+        </article>
+
+        <!-- Twitter -->  
+        <article class="collection-list-item centered">
+           {{ 'img_wholesale_twitter.jpg' | asset_url  | img_tag: 'Twitter Design Coasters'}}
+            <div class="rte">&#8220;Fresh coffee in a Twitter mug just waiting to hop on this new custom Twitter coaster.&#8221; <br/><a class="inline" href="https://twitter.com/bhaggs" target="_blank">Bryan Haggerty</a></div>
+        </article> 
+
+        <!-- IxD15   
+        <article class="collection-list-item centered">
+           {{ 'img_wholesale_ixd.jpg' | asset_url  | img_tag: 'Interaction15 Local Leader Coasters'}}
+            <div class="rte">&#8220;These were a great gift for our local <a class="inline" href="http://www.ixda.org/" target="_blank">IxDA</a> leaders.&#8221; <br/>Stephanie Aaron</div>
+        </article>  --> 
+
+     </div>
+  </div>
+
+
+{% if settings.display-recent-posts %}
+
+  <div class="recent-posts grid-wrap grid-of-{{ settings.number-of-posts }} clearfix">
+
+  {% if settings.recent-posts-blog.size > 0 %}
+    {% if settings.recent-posts-title.size > 0 %}<h4 class="section-title">{{ settings.recent-posts-title }}</h4>{% endif %}
+
+    {% assign postCount = settings.number-of-posts %}
+
+    <div class="items-wrap">
+
+      {% for article in blogs.[settings.recent-posts-blog].articles limit: postCount %}
+      <article>
+        <h1><a class="title" href="{{ article.url }}">{{ article.title }}</a></h1>
+        <div class="rte content">
+          {% if article.excerpt.size > 0 %}
+            {{ article.excerpt }}
+          {% else %}
+            <p>{{ article.content | strip_html | truncatewords: 20 }}</p>
+          {% endif %}
+        </div>
+        <a class="date meta" href="{{ article.url }}">{{ article.published_at | date: "%b %d, %Y" }}</a>
+      </article>
+      {% endfor %}
+
+    </div>
+
+    {% else %}
+      <div class="home-helper">
+        <h4 class="section-title">From the Blog</h4>
+        <p>You haven't set this up yet! Go to the <a href="{{ shop.url }}/admin/themes/">theme settings</a> to choose your blog.</p>
+      </div>
+    {% endif %}
+
+  </div>
+{% endif %}
+
+{% if settings.display-instagram-widget %}
+  {% include 'instagram-widget' %}
+{% endif %}
+
+{% if settings.display-twitter-widget %}
+  {% include 'twitter-widget' %}
+{% endif %}
+
+<!-- Facebook Conversion Code for Coastermatic Home -->
+<script>(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+    var fbds = document.createElement('script');
+    fbds.async = true;
+    fbds.src = '//connect.facebook.net/en_US/fbds.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(fbds, s);
+    _fbq.loaded = true;
+  }
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(['track', '6008878744241', {'value':'0.00','currency':'USD'}]);
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6008878744241&amp;cd[value]=0.00&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
