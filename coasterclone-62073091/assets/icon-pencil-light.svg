@@ -5,7 +5,7 @@
 <style type="text/css">
 	.st0{fill:#E5E5E5;}
 	.st1{fill:#FFFFFF;}
-	.st2{fill:none;stroke:#F4F4F4;stroke-width:0.5;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#F4F4F4;stroke-miterlimit:10;}
 </style>
 <g>
 	<g>
@@ -28,5 +28,5 @@
 			C-357.3,300.5-357.2,300.5-357.2,300.6L-357.2,300.6z"/>
 	</g>
 </g>
-<polyline class="st2" points="-321.2,303.2 -341.3,282.9 -369,282.9 -369,310.8 -348.3,330.4 "/>
+<polyline class="st2" points="-329.2,295.2 -341.3,282.9 -369,282.9 -369,310.8 -356.4,322.4 "/>
 </svg>

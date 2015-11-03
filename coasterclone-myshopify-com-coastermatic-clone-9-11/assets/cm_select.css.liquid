@@ -289,6 +289,11 @@ div#shortlist_container a.crop.pencil {
 
 div#shortlist_container li:hover a.crop.pencil,
 div#shortlist_container a:hover.crop.pencil {
+  background: url("{{ 'icon-pencil-med.svg' | asset_url }}") 0 0 no-repeat;
+}
+
+div#shortlist_container li:active a.crop.pencil,
+div#shortlist_container a:active.crop.pencil {
   background: url("{{ 'icon-pencil-dark.svg' | asset_url }}") 0 0 no-repeat;
 }
 

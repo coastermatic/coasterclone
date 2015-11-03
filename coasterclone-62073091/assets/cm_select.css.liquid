@@ -287,8 +287,11 @@ div#shortlist_container a.crop.pencil {
   background: url("{{ 'icon-pencil-light.svg' | asset_url }}") 0 0 no-repeat;
 }
 
-div#shortlist_container li:hover a.crop.pencil,
-div#shortlist_container a:hover.crop.pencil {
+div#shortlist_container li:hover a.crop.pencil {
+  background: url("{{ 'icon-pencil-med.svg' | asset_url }}") 0 0 no-repeat;
+}
+
+div#shortlist_container li:hover a:hover.crop.pencil {
   background: url("{{ 'icon-pencil-dark.svg' | asset_url }}") 0 0 no-repeat;
 }
 
@@ -445,6 +448,7 @@ div#shop-url {
 
 #product.photo-upload li#choose-photo {
   background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path fill="#010101" d="M66.3,47H51.7V33.4c0-1.4-1.1-2.5-2.5-2.5s-2.5,1.1-2.5,2.5V47H33.3c-1.4,0-2.5,1.1-2.5,2.5s1.1,2.5,2.5,2.5 h13.4v14.5c0,1.4,1.1,2.5,2.5,2.5s2.5-1.1,2.5-2.5V52h14.6c1.4,0,2.5-1.1,2.5-2.5S67.7,47,66.3,47z"/></svg>');
+  cursor: pointer;
 }
 
 #product.photo-upload .flex-col {
