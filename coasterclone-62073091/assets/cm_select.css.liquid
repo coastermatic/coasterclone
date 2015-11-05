@@ -103,6 +103,11 @@ p#msg-border span {
 	top: -1px;
 }
 
+#product.photo-upload p#msg-border span {
+	background: url("{{ 'icon-pencil.svg' | asset_url }}") 0 0 no-repeat;
+	background-size: 50px;
+}
+
 div#shortlist_container ul {
 	overflow: auto;
 	margin: 0 auto;
@@ -407,7 +412,7 @@ div#shop-url {
 
 #product.photo-upload #overlay .modal {
   width:500px;
-  margin:auto auto;
+  margin:25px auto;
   background-color:#fff;
   padding:30px 50px 30px 50px;
   text-align:center;
@@ -423,17 +428,22 @@ div#shop-url {
   outline: none !important;
 }
 
+#product.photo-upload h1 {
+	line-height: 1;
+}
+
 #product.photo-upload #crop-slider {
   width: 300px;
   height: 7px;
-  margin: 10px auto 10px auto;
+  margin: 20px auto 10px auto;
 }
   
 #product.photo-upload #crop-slider div.noUi-handle {
-  border-radius: 8px;
-  height: 16px;
-  width: 16px;
-  left: -7px;
+  border-radius: 25px;
+  height: 25px;
+  width: 25px;
+  top: -10px;
+  left: -10px;
   background-color: #dc1960;
   box-shadow: none;
 }
@@ -447,7 +457,7 @@ div#shop-url {
 }
 
 #product.photo-upload li#choose-photo {
-  background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path fill="#010101" d="M66.3,47H51.7V33.4c0-1.4-1.1-2.5-2.5-2.5s-2.5,1.1-2.5,2.5V47H33.3c-1.4,0-2.5,1.1-2.5,2.5s1.1,2.5,2.5,2.5 h13.4v14.5c0,1.4,1.1,2.5,2.5,2.5s2.5-1.1,2.5-2.5V52h14.6c1.4,0,2.5-1.1,2.5-2.5S67.7,47,66.3,47z"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path fill="#555555" d="M66.3,47H51.7V33.4c0-1.4-1.1-2.5-2.5-2.5s-2.5,1.1-2.5,2.5V47H33.3c-1.4,0-2.5,1.1-2.5,2.5s1.1,2.5,2.5,2.5 h13.4v14.5c0,1.4,1.1,2.5,2.5,2.5s2.5-1.1,2.5-2.5V52h14.6c1.4,0,2.5-1.1,2.5-2.5S67.7,47,66.3,47z"/></svg>');
   cursor: pointer;
 }
 
@@ -462,20 +472,44 @@ div#shop-url {
   justify-content:space-between;
 }
 
+/* ---- Media Queries ---- */ 
+
 @media (max-width: 1100px) {
+
   #product.photo-upload div#shortlist ul .breaker { display:block; }
   #product.photo-upload div#shortlist_container.upload ul { width: 100%; }
-  #product.photo-upload div#shortlist_container a.crop.pencil { left:-10px !important; top:-10px !important; }
+  /*#product.photo-upload div#shortlist_container a.crop.pencil { left:-10px !important; top:-10px !important; } */
   #product.photo-upload h1#select-image-count {
-    margin:0px;
+    margin: 0px auto 10px;
     position:relative;
+    font-size: 35px;
   }
+
+  #product.photo-upload div#shortlist_container a.crop.pencil {
+	  background: url("{{ 'icon-pencil-med-mobile.svg' | asset_url }}") 0 0 no-repeat;
+	}
+
+	#product.photo-upload div#shortlist_container a.remove-link {
+		background: url("{{ 'icon-remove-mobile.svg' | asset_url }}") 0 0 no-repeat;
+	}
 
   #product.photo-upload h1#select-image-count.select-image-count-mid-selection {
     right: 0;
     width: 100%;
-    margin: auto;
+    margin: 0 auto 10px;
   }
+
+  #product.photo-upload div#shortlist_container div#shortlist ul li {
+	-webkit-box-shadow: 0px 0px 8px 0 #000;
+	-moz-box-shadow: 0px 0px 8px 0 #000;
+	box-shadow: 0px 0px 8px 0 #000;
+	}
+
+ #product.photo-upload div.internal-container { border-top: rgb(238,238,238) solid 1px; }
+
+ #product.photo-upload p#msg-border {
+ 	    margin: 120px 0 0 0;
+ }
 
   #product.photo-upload div#shortlist ul li, #product.photo-upload div#image_content li {
     margin:2%;
@@ -488,8 +522,14 @@ div#shop-url {
     border-radius:50%;
   }
 
+  #product.photo-upload div#shortlist_container, #product.photo-upload div#shortlist_container div#shortlist{
+  	z-index: 0px;
+  	overflow: visible;
+  }
+
   #product.photo-upload div#shortlist_container, #product.photo-upload div#shortlist_container ul {
     padding: 0;
+    margin-bottom: 10px;
   }
 
   #product.photo-upload div#shortlist_container div#shortlist ul li {

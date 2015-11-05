@@ -31,7 +31,7 @@ Shopify.addItem = function (variant_id, quantity, ig_name, img_1_id, img_2_id, i
 $(function () {
 
     //make drawer sticky
-    $("#shortlist_container").sticky({topSpacing:0});
+    //$("#shortlist_container").sticky({topSpacing:0});
 		
     //Initialize customerOrder object
     customerOrder.userInfo = [];
@@ -192,7 +192,6 @@ $(function () {
             //add it + render selected 
             selectedList.push(selectedItem.data.images.standard_resolution.url);
 
-
             $('#shortlist li.empty:last-child').remove(); //removes last li as new one added
             $.tmpl('selectedPics', selectedData).prependTo('#shortlist ul'); //adds to beginning of list
 
@@ -206,30 +205,17 @@ $(function () {
             }
 
             //turn pink
+            $(this).parent('li').attr("data-id",selectedItem.data.id);
             $(this).parent('li').addClass('shortlisted');
             $(this).attr('id', selectedList.length);
 
             // if one image has been added, open drawer
             if (shortlistCount < 4) {
-               // $('div#shortlist').animate({
-               //      margin: '0 auto'
-               //  }, 500, function () {
-               //      // Animation complete.
-               //  }); 
-
-                // remove margin on image collection
-                // $('div#image_content').animate({
-                //     margin: '380px 0 0 0'
-                // }, 500);
-
                 // hide text / change text to mid-flow
                 $('#msg-border').hide();
                 $('#instagram-logged-in-as').hide();
                 $('#select-image-count').addClass('select-image-count-mid-selection');
             }
-
-
-            // }
 
             // we have a fullset of 4 coasters!
             if (selectedList.length == 4) {
@@ -237,7 +223,7 @@ $(function () {
                 $('h1#select-image-count').html('<a href="#" class="next-step btn">Add to cart</a>');
                 $('h1#select-image-count').hide();
                 $('div.cart-or-crop').fadeIn();
-                $('.sticky-wrapper').height(330);
+                $("html, body").animate({ scrollTop: 0 }, "slow");
 
             }
         }
@@ -257,8 +243,8 @@ $(function () {
 
         //remove pink outline class, if no other selection needs it
         if ($.inArray(selectedItem.data.images.standard_resolution.url, selectedList) == -1) {
-            $('#image_content #images ul li a img[src="' + selectedItem.data.images.thumbnail.url + '"]').parents('li').removeClass('shortlisted');
-        }
+            $("li[data-id='" + selectedItem.data.id + "']").removeClass('shortlisted');
+        } 
 
         //remove parent from #shortlist
         $(this).parent().remove();
@@ -268,7 +254,6 @@ $(function () {
         if (shortlistCount == 1) {
             $('h1#select-image-count').html('Select <span>' + shortlistCount + '</span> Image');
             $('div.cart-or-crop').fadeOut();
-            $('.sticky-wrapper').height(270);
             $('h1#select-image-count').addClass('select-image-count-mid-selection');
             $('h1#select-image-count').show();
 
@@ -278,16 +263,6 @@ $(function () {
 
         // hide drawer if no images are selected
         if (shortlistCount == 4) {
-            // $('div#shortlist').animate({
-            //     margin: '-130px auto 0'
-            // }, 500, function () {
-            //     // Animation complete.
-            // });
-            // // reduce margin if drawer goes
-            // $('div#image_content').animate({
-            //     margin: '250px 0 0 0'
-            // }, 500);
-            // hide text / change text to mid-flow
             $('#msg-border').show();
             $('#select-image-count').removeClass('select-image-count-mid-selection');
         }
