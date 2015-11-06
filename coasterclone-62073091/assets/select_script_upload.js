@@ -10,13 +10,14 @@
 
   // setup event handlers, controller scope
   $(document).ready(function() {
+
     var images = [];
     var tray = [];
 
     // rectify for image
     $("#crop-view > img").attr("width", PREVIEW_DIAMETER).attr("height", PREVIEW_DIAMETER);
 
-    $("#choose-photo").on("click", function(e) { $("#file-input").val("").click(); });
+    $("#choose-photo").on("click", function(e) { $("#file-input").val("").click(); $(this).removeClass('start');});
     $("#file-input").change(function(e) {
       $(".internal-container").show();
       $(".loading").show();
@@ -88,17 +89,31 @@
         });
 
         var slider = document.getElementById("crop-slider");
-        if(slider.noUiSlider) { slider.noUiSlider.destroy(); }
-        noUiSlider.create(slider, {
-          "start": PREVIEW_DIAMETER,
-          "range": { "min": PREVIEW_DIAMETER, "max": $cropview.cropper("getCropBoxData").width / DIAMETER * Math.max(img.width, img.height) }
-        });
-        slider.noUiSlider.on("set", function(vals){
-          var val = Number(vals[0]);
-          console.log(val, typeof val);
-          $("#crop-view > img").cropper("setCanvasData", { "left": 0, "top": 0, "width": 0+val, "height": 0+val});
-          console.log($("#crop-view > img").cropper("getCanvasData"));
-        });
+        var SLIDER_MAX = $cropview.cropper("getCropBoxData").width / DIAMETER * Math.max(img.width, img.height);
+        
+        if (SLIDER_MAX > PREVIEW_DIAMETER){
+          console.log("yes slider");
+          $('span.slider_msg').show();
+
+            if(slider.noUiSlider) { slider.noUiSlider.destroy(); }
+            noUiSlider.create(slider, {
+              "start": PREVIEW_DIAMETER,
+              "range": { "min": PREVIEW_DIAMETER, "max": SLIDER_MAX }
+            });
+            slider.noUiSlider.on("set", function(vals){
+              var val = Number(vals[0]);
+              console.log(val, typeof val);
+              $("#crop-view > img").cropper("setCanvasData", { "left": 0, "top": 0, "width": 0+val, "height": 0+val});
+              console.log($("#crop-view > img").cropper("getCanvasData"));
+            });
+
+        } else {
+          console.log("no slider");
+          if(slider.noUiSlider) { slider.noUiSlider.destroy(); }
+          $('span.slider_msg').hide();
+        }
+
+        
       }, 0);
     });
 
@@ -121,8 +136,11 @@
     });
 
     $("a#add-to-cart").on("click", function (e) {
-      e.preventDefault();
-      Shopify.addItem(PRODUCT_VARIANT, 1, images);
+        e.preventDefault();
+        Shopify.addItem(PRODUCT_VARIANT, 1, images);
+        $(this).hide();
+        $('h1.loader').show();
+        pulsate();
     });
 
     // initial render
@@ -150,6 +168,14 @@
   };
 
   // Controllers:
+
+  //loading cart animation
+  function pulsate() {
+      $(".pulsate").
+        animate({opacity: 0.2}, 1500, 'linear').
+        animate({opacity: 1}, 1500, 'linear').delay(500, pulsate);
+    }
+
   function readImage(file, callback) {
     var reader = new FileReader();
     reader.onload = function (event) {
