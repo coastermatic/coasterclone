@@ -1,6 +1,6 @@
 {% if product.handle == 'instagram-coasters'%}
   {% include 'instagram-coasters' %}
-{% elsif product.handle == 'photo-upload' %}
+{% elsif product.handle == 'photo-upload' or product.handle == 'photo-pairs'%}
   {% include 'photo-upload' %}
 {% elsif product.handle == 'single-coaster' %}
   {% include 'single-instagram-coasters' %} 

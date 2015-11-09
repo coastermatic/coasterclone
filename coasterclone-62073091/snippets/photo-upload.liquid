@@ -2,9 +2,15 @@
 {{ 'cropper.min.js' | asset_url | script_tag }}
 {{ 'nouislider.min.css' | asset_url | stylesheet_tag }}
 {{ 'nouislider.min.js' | asset_url | script_tag }}
-{{ 'select_script_upload.js' | asset_url | script_tag }}
 
-<div id="product" class="{{ product.handle }}">
+{% if product.handle == 'photo-upload'%}
+  {{ 'select_script_upload.js' | asset_url | script_tag }}
+{% else %}
+  {{ 'select_script_upload_pairs.js' | asset_url | script_tag }}
+{% endif %}
+
+<!-- <div id="product" class="{{ product.handle }}"> -->
+<div id="product" class="photo-upload"> 
 
   <div class="row clearfix">
 
@@ -77,3 +83,8 @@
   </div>
 </div>
 <div id="shop-url">{{ shop.url }}</div> {% comment %}necessary to pass liquid variable to javascript{% endcomment %}
+<input type="text" id="variant-id" value="{% for variant in product.variants %}{{ variant.id }}{% endfor %}" />
+
+
+
+
