@@ -20,11 +20,13 @@ var cropArray = new Array();
       <ul class="coaster-set-preview {{ item.id }}">
         
           {% comment %}
-          product variant id: 366061911 = instagram coasters
-          product variant id: 2548532867 = photo upload
+          product id: 366061911 = instagram coasters
+          product id: 2548532867 = photo upload
+          product id: 3594505859 = photo pair
+
           {% endcomment %}
 
-        {% if item.product.id == 366061911 or 2548532867 %}
+        {% if item.product.id == 366061911 or 2548532867 or 3594505859 %}
       
             <!-- write image list -->
             {% for p in item.properties %}

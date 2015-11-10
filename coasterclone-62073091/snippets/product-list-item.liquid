@@ -6,10 +6,19 @@
   {% assign item = prod %}
 {% endif %}
 
+
+
+
 <article class="product-list-item" id="product-list-item-{{ item.id }}">
 
   <figure class="thumbnail">
+    {% if item.title 'Instagram' %}
+    <a href="https://instagram.com/oauth/authorize/?client_id=2bbf2d87bd8945f59b34a087ca6acde2&redirect_uri=http://coasterclone.myshopify.com/products/instagram-coasters&response_type=token">
+    {% else %}
     <a href="{{ item.url | within: collection }}">
+    {% endif %}
+
+    
     {% if item.featured_image.src.size > 0 %}
     <img src="{{ item.featured_image.src | product_img_url: 'grande' }}" alt="{{ item.featured_image.alt | escape }}" />
     {% else %}
@@ -19,7 +28,12 @@
   </figure>
 
   <div class="product-list-details">
+  {% if item.title 'Instagram' %}
+   <p class="title"><a href="https://instagram.com/oauth/authorize/?client_id=2bbf2d87bd8945f59b34a087ca6acde2&redirect_uri=http://coasterclone.myshopify.com/products/instagram-coasters&response_type=token">{{ item.title }}</a></p>  
+    {% else %}
     <p class="title"><a href="{{ item.url | within: collection }}">{{ item.title }}</a></p>
+    {% endif %}
+  
     <p class="vendor">by {{ item.vendor }}</p>
     <p class="product-price">
     {% if item.available %}
@@ -35,3 +49,4 @@
   </div>
 
 </article>
+
