@@ -430,3 +430,4 @@
     reader.readAsArrayBuffer(file.slice(0, 64 * 1024));
   }
 })($, Shopify, window);
+ No newline at end of file

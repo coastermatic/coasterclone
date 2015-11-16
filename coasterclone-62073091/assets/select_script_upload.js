@@ -5,8 +5,22 @@
   var DIAMETER = 640;
   var PREVIEW_DIAMETER = Math.min(screen.width-20, 400);
 
-  // photo-upload, set of 4
-  var PRODUCT_VARIANT = 7432867779;
+  // photo-upload, set of 4 variant = 7432867779;
+  // pair clone variant = 10425593923;
+
+  var PRODUCT_VARIANT = document.getElementById("variant-id").value;
+  var SET_SIZE = 4;
+
+  // if Photo Pair, reset to 2 coasters
+    if (PRODUCT_VARIANT == 10425593923){
+    var SET_SIZE = 2;
+
+    //remove last 2 li from shortlist
+    $("li.2").hide();
+    $("li.3").hide();
+    $("div#shortlist_container ul").width("525");
+    $("span#price").html("$30");
+    }
 
   // setup event handlers, controller scope
   $(document).ready(function() {
@@ -24,7 +38,7 @@
       var resolve = this.files.length;
       var addImage = function(img) {
         tray.push(img);
-        if(images.length < 4) {
+        if(images.length < SET_SIZE) {
           images.unshift(img);
         }
         if(--resolve === 0) {
@@ -128,7 +142,7 @@
       e.preventDefault();
       var index = $(this).data("index");
       var img = tray[index];
-      if(images.length < 4) {
+      if(images.length < SET_SIZE) {
         images.unshift(img);
         renderShortlist(images);
         renderTray(tray, images);
@@ -139,8 +153,25 @@
         e.preventDefault();
         Shopify.addItem(PRODUCT_VARIANT, 1, images);
         $(this).hide();
+        $("a#add-coasters").hide();
         $('h1.loader').show();
         pulsate();
+    });
+
+    var ADD_COASTERS = 0;
+    $("a#add-coasters").on("click", function (e) {
+        e.preventDefault();
+        SET_SIZE = 4;
+        ADD_COASTERS = 1;
+
+        //remove last 2 li from shortlist
+        $("div#shortlist_container ul").width("1031");
+        $("li.2").fadeIn();
+        $("li.3").fadeIn();
+        $("#add-to-cart").fadeOut();
+        $("#add-coasters").fadeOut();
+        $("span#price").html("$49");
+        PRODUCT_VARIANT = 7432867779;
     });
 
     // initial render
@@ -244,16 +275,19 @@
     });
 
     // conditional rendering stuff
-    var message = "Select <span>" + (4 - images.length) + "</span> Images";
-    var midSelection = images.length > 0 && images.length < 4;
+    var message = "Select <span>" + (SET_SIZE - images.length) + "</span> Images";
+    var midSelection = images.length > 0 && images.length < SET_SIZE;
     $("#msg-border").toggle(images.length === 0);
-    $("h1#select-image-count").html(message).toggleClass("select-image-count-mid-selection", midSelection).toggle(images.length < 4);
-    if(images.length == 4) {
+    $("h1#select-image-count").html(message).toggleClass("select-image-count-mid-selection", midSelection).toggle(images.length < SET_SIZE);
+    if(images.length == SET_SIZE) {
       $("#add-to-cart").fadeIn();
-      $(".sticky-wrapper").height(330);
+
+      if(SET_SIZE == 2){
+        $("#add-coasters").fadeIn();
+      }
     } else {
       $("#add-to-cart").fadeOut();
-      $(".sticky-wrapper").height(270);
+      $("#add-coasters").fadeOut();
     }
   }
 
